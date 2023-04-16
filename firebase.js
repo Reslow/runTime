@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import Constants from "expo-constants";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 // initializeApp() is called before getAuth() for sure
 
@@ -18,19 +18,9 @@ const firebaseConfig = {
   appId: Constants.manifest?.extra?.firebaseAppId,
 };
 
-export const db = getFirestore(app);
-
-async function getUsers(db) {
-  const citiesCol = collection(db, "users");
-  const citySnapshot = await getDocs(citiesCol);
-  const cityList = citySnapshot.docs.map((doc) => doc.data());
-  return cityList;
-}
-
-console.log(getUsers());
-
 // Initialize Firebase
 
 const app = initializeApp(firebaseConfig);
-
+export const db = getFirestore(app);
+console.log("DB", db);
 export default app;

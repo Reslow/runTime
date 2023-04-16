@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useAuthentication } from "../hooks/useAuthentication";
-import {
-  signOut,
-  deleteUser,
-  getAuth,
-  reauthenticateWithCredential,
-} from "firebase/auth";
+import { signOut, deleteUser, getAuth } from "firebase/auth";
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Home = ({ navigation }) => {
   const auth = getAuth();
@@ -14,10 +11,14 @@ const Home = ({ navigation }) => {
   const [error, setError] = useState("");
 
   const HandleDelete = async () => {
+    console.log("KOLLA", user.uid);
     try {
-      console.log(user);
-      deleteUser(auth.currentUser);
+      await deleteDoc(doc(db, "users", user.uid));
+      console.log("hello");
+      await deleteUser(user).then((w) => console.log(w));
+      console.log("read");
       // navigation.navigate("Welcome");
+      // Add a new document in collection "users"
     } catch (error) {
       setError(error.message);
       console.log(error);

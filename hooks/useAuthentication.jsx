@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
-import { auth } from "../firebase";
-
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+const auth = getAuth();
 export function useAuthentication() {
   const [user, setUser] = useState();
-  const auth = getAuth();
 
-  console.log("hook", auth);
   useEffect(() => {
     const unsubscribeFromAuthStatuChanged = onAuthStateChanged(auth, (user) => {
       if (user) {

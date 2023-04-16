@@ -7,7 +7,9 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { deleteUser, getAuth } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const auth = getAuth();
 
@@ -19,8 +21,13 @@ const SignupScreen = ({ navigation }) => {
   const HandleSignup = async () => {
     try {
       console.log("auth sign up", auth, email, pwd);
-      const res = await createUserWithEmailAndPassword(auth, email, pwd);
-      console.log(res);
+      const user = await createUserWithEmailAndPassword(auth, email, pwd);
+
+      // Add a new document in collection "users"
+      await setDoc(doc(db, "users", user.user.uid), {
+        email: user.user.email,
+      });
+
       navigation.navigate("Login");
     } catch (error) {
       setError(error.message);
