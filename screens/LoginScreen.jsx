@@ -7,20 +7,23 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
+const userAuth = getAuth();
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [pwd, setPWD] = useState("");
+  const [error, setError] = useState("");
 
-  const HandleLogin = () => {
-    createUserWithEmailAndPassword(auth, email, pwd)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log(user.email);
-      })
-      .catch((error) => alert(error.message));
+  const HandleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(userAuth, email, pwd);
+    } catch (error) {
+      setError(error.message);
+      console.log(error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -28,7 +31,10 @@ const LoginScreen = () => {
       <Text>Login</Text>
       <View>
         <Text style={styles.buttonText}>Dont have an Account? </Text>
-        <TouchableOpacity onPress={() => console.log("")} style={styles.link}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Signup")}
+          style={styles.link}
+        >
           <Text>Signup</Text>
         </TouchableOpacity>
       </View>
@@ -49,10 +55,12 @@ const LoginScreen = () => {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
+          title="Sign up"
+          type="outline"
+          buttonStyle={styles.button}
           onPress={HandleLogin}
-          style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonOutlineText}>Login</Text>
+          <Text>Login</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
