@@ -7,18 +7,17 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const userAuth = getAuth();
-const LoginScreen = ({ navigation }) => {
+const ResetScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
-  const [pwd, setPWD] = useState("");
-  const [error, setError] = useState("");
 
-  const HandleLogin = async () => {
+  const HandleReset = async () => {
     try {
-      await signInWithEmailAndPassword(userAuth, email, pwd);
+      await sendPasswordResetEmail(userAuth, email);
+
+      setSuccess("email has been sent");
     } catch (error) {
       setError(error.message);
       console.log(error);
@@ -28,51 +27,37 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text>Login</Text>
+      <Text>Reset Password</Text>
       <View>
-        <Text style={styles.buttonText}>Dont have an Account? </Text>
+        <Text style={styles.buttonText}>back to </Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Signup")}
+          onPress={() => navigation.navigate("Login")}
           style={styles.link}
         >
-          <Text>Signup</Text>
+          <Text>Login</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={pwd}
-          onChangeText={(text) => setPWD(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Reset")}
-        style={styles.link}
-      >
-        <Text>reset password</Text>
-      </TouchableOpacity>
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+        style={styles.input}
+      />
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           type="outline"
           buttonStyle={styles.button}
-          onPress={HandleLogin}
+          onPress={HandleReset}
         >
-          <Text>Login</Text>
+          <Text>send link</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 };
 
-export default LoginScreen;
+export default ResetScreen;
 
 const styles = StyleSheet.create({
   container: {
