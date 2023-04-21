@@ -8,64 +8,74 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const userAuth = getAuth();
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [pwd, setPWD] = useState("");
-  const [error, setError] = useState("");
 
   const HandleLogin = async () => {
     try {
       await signInWithEmailAndPassword(userAuth, email, pwd);
     } catch (error) {
-      setError(error.message);
       console.log(error);
       alert(error.message);
     }
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text>Login</Text>
-      <View>
-        <Text style={styles.buttonText}>Dont have an Account? </Text>
+    <KeyboardAvoidingView style={styles.container} behavior="">
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Hello")}
+        style={styles.navigationLink}
+      >
+        <Text style={styles.navigationLinkText}>back</Text>
+      </TouchableOpacity>
+      <View style={styles.SignInContainer}>
+        <Text style={[styles.h1]}>Login</Text>
+        <View style={styles.switchToSignUpContainer}>
+          <Text style={styles.subHeading}>Dont have an Account? </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Signup")}
+            style={styles.subHeadingLink}
+          >
+            <Text style={styles.subHeadingLink}>Signup</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="mail-outline" size={24} color="#373634" />
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={styles.input}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="lock-outline" size={24} color="#373634" />
+          <TextInput
+            placeholder="Password"
+            value={pwd}
+            onChangeText={(text) => setPWD(text)}
+            style={styles.input}
+            secureTextEntry
+          />
+        </View>
+
         <TouchableOpacity
-          onPress={() => navigation.navigate("Signup")}
-          style={styles.link}
+          onPress={() => navigation.navigate("Reset")}
+          style={styles.resetlink}
         >
-          <Text>Signup</Text>
+          <Text style={styles.resetlinkText}>reset password</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={pwd}
-          onChangeText={(text) => setPWD(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Reset")}
-        style={styles.link}
-      >
-        <Text>reset password</Text>
-      </TouchableOpacity>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          type="outline"
-          buttonStyle={styles.button}
+          style={[styles.button, styles.primary]}
           onPress={HandleLogin}
         >
-          <Text>Login</Text>
+          <Text style={[styles.buttonText, styles.primary]}>Login</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -79,43 +89,93 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#ffffff", //white
   },
-  inputContainer: { width: "80%" },
-  input: {
+
+  buttonContainer: {
+    position: "absolute",
+    bottom: 20,
+  },
+  navigationLink: {
+    position: "absolute",
+    top: 50,
+    left: 30,
+  },
+  navigationLinkText: {
+    fontFamily: "rub-mid",
+    fontSize: 18,
+    color: "#373634", //black
+  },
+
+  SignInContainer: {
+    width: "80%",
+    backgroundColor: "#f6f6f6", //grey
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 4,
+  },
+
+  h1: {
+    fontFamily: "rub-xbold",
+    fontSize: 36,
+    color: "#373634", //black
+  },
+  switchToSignUpContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginVertical: 4,
+  },
+
+  subHeading: {
+    color: "#373634", //black
+    fontFamily: "rub-mid",
+  },
+
+  subHeadingLink: {
+    color: "#373634", //black
+    fontFamily: "rub-bold",
+  },
+
+  inputContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 10,
     backgroundColor: "white",
     paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderRadius: 10,
-    marginTop: 5,
+    marginVertical: 5,
   },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
+  input: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginTop: 5,
+    width: "90%",
+    marginHorizontal: 5,
+    fontFamily: "rub-mid",
   },
   button: {
-    backgroundColor: "#373634",
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderRadius: 4,
     width: "100%",
-    padding: 15,
-    borderRadius: 10,
-  },
-  buttonOutline: {
-    backgroundColor: "#ffffff",
-    marginTop: 5,
-    borderColor: "#373634",
-    borderWidth: "2",
+    minWidth: "80%",
   },
   buttonText: {
     textAlign: "center",
-    color: "#ffffff",
-    fontWeight: "700",
-    fontSize: 16,
+    fontFamily: "rub-xbold",
+    fontSize: 24,
   },
-  buttonOutlineText: {
-    textAlign: "center",
-    color: "#373634",
-    fontWeight: "700",
-    fontSize: 16,
+  primary: {
+    color: "#ffffff", //White
+    backgroundColor: "#373634", //black
+  },
+
+  resetlink: {
+    alignSelf: "flex-end",
+    margin: 5,
+  },
+  resetlinkText: {
+    fontFamily: "rub-mid",
   },
 });

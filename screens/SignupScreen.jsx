@@ -38,6 +38,13 @@ const SignupScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Hello")}
+        style={styles.navigationLink}
+      >
+        <Text style={styles.navigationLinkText}>back</Text>
+      </TouchableOpacity>
+
       <Text>Sign up</Text>
       <View>
         <Text style={styles.buttonText}>Already Have An account? </Text>
