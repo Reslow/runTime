@@ -11,12 +11,9 @@ const Home = ({ navigation }) => {
   const [error, setError] = useState("");
 
   const HandleDelete = async () => {
-    console.log("KOLLA", user.uid);
     try {
       await deleteDoc(doc(db, "users", user.uid));
-      console.log("hello");
       await deleteUser(user).then((w) => console.log(w));
-      console.log("read");
       // navigation.navigate("Welcome");
       // Add a new document in collection "users"
     } catch (error) {

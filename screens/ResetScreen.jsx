@@ -16,7 +16,6 @@ const ResetScreen = ({ navigation }) => {
   const HandleReset = async () => {
     try {
       await sendPasswordResetEmail(userAuth, email);
-
       setSuccess("email has been sent");
     } catch (error) {
       setError(error.message);
