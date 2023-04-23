@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,20 +9,29 @@ import {
 } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const userAuth = getAuth();
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [pwd, setPWD] = useState("");
+  const [user, setUser] = useState(null);
 
   const HandleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(userAuth, email, pwd);
+      await signInWithEmailAndPassword(userAuth, email, pwd).then((usr) => {
+        setUser(usr);
+      });
     } catch (error) {
       console.log(error);
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    console.log(user);
+    AsyncStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="">

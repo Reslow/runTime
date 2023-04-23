@@ -10,6 +10,7 @@ import {
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const auth = getAuth();
 
@@ -37,48 +38,53 @@ const SignupScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView style={styles.container} behavior="">
       <TouchableOpacity
         onPress={() => navigation.navigate("Hello")}
         style={styles.navigationLink}
       >
         <Text style={styles.navigationLinkText}>back</Text>
       </TouchableOpacity>
+      <View style={styles.SignUpContainer}>
+        <Text style={[styles.h1]}>Sign up</Text>
+        <View style={styles.switchToSignUpContainer}>
+          <Text style={styles.subHeading}>Already have an Account? </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SignIn")}
+            style={styles.subHeadingLink}
+          >
+            <Text style={styles.subHeadingLink}>SignIn</Text>
+          </TouchableOpacity>
+        </View>
 
-      <Text>Sign up</Text>
-      <View>
-        <Text style={styles.buttonText}>Already Have An account? </Text>
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="mail-outline" size={24} color="#373634" />
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={styles.input}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="lock-outline" size={24} color="#373634" />
+          <TextInput
+            placeholder="Password"
+            value={pwd}
+            onChangeText={(text) => setPWD(text)}
+            style={styles.input}
+            secureTextEntry
+          />
+        </View>
+      </View>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Login")}
-          style={styles.link}
+          style={[styles.button, styles.primary]}
+          onPress={HandleSignup}
         >
-          <Text>Sign in </Text>
+          <Text style={[styles.buttonText, styles.primary]}>Signup</Text>
         </TouchableOpacity>
       </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={pwd}
-          onChangeText={(text) => setPWD(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-      <TouchableOpacity
-        title="Sign up"
-        type="outline"
-        buttonStyle={styles.button}
-        onPress={HandleSignup}
-      >
-        <Text>Sign up</Text>
-      </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 };
@@ -90,43 +96,93 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#ffffff", //white
   },
-  inputContainer: { width: "80%" },
-  input: {
+
+  buttonContainer: {
+    position: "absolute",
+    bottom: 20,
+  },
+  navigationLink: {
+    position: "absolute",
+    top: 50,
+    left: 30,
+  },
+  navigationLinkText: {
+    fontFamily: "rub-mid",
+    fontSize: 18,
+    color: "#373634", //black
+  },
+
+  SignUpContainer: {
+    width: "80%",
+    backgroundColor: "#f6f6f6", //grey
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 4,
+  },
+
+  h1: {
+    fontFamily: "rub-xbold",
+    fontSize: 36,
+    color: "#373634", //black
+  },
+  switchToSignUpContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginVertical: 4,
+  },
+
+  subHeading: {
+    color: "#373634", //black
+    fontFamily: "rub-mid",
+  },
+
+  subHeadingLink: {
+    color: "#373634", //black
+    fontFamily: "rub-bold",
+  },
+
+  inputContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 10,
     backgroundColor: "white",
     paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderRadius: 10,
-    marginTop: 5,
+    marginVertical: 5,
   },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
+  input: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginTop: 5,
+    width: "90%",
+    marginHorizontal: 5,
+    fontFamily: "rub-mid",
   },
   button: {
-    backgroundColor: "#373634",
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderRadius: 4,
     width: "100%",
-    padding: 15,
-    borderRadius: 10,
-  },
-  buttonOutline: {
-    backgroundColor: "#ffffff",
-    marginTop: 5,
-    borderColor: "#373634",
-    borderWidth: "2",
+    minWidth: "80%",
   },
   buttonText: {
     textAlign: "center",
-    color: "#ffffff",
-    fontWeight: "700",
-    fontSize: 16,
+    fontFamily: "rub-xbold",
+    fontSize: 24,
   },
-  buttonOutlineText: {
-    textAlign: "center",
-    color: "#373634",
-    fontWeight: "700",
-    fontSize: 16,
+  primary: {
+    color: "#ffffff", //White
+    backgroundColor: "#373634", //black
+  },
+
+  resetlink: {
+    alignSelf: "flex-end",
+    margin: 5,
+  },
+  resetlinkText: {
+    fontFamily: "rub-mid",
   },
 });
