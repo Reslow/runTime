@@ -15,19 +15,14 @@ export default function RootNavigation() {
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
       if (user !== null) {
-        console.log("if user");
         // User is signed in.
         setUser(userAuth);
       } else {
-        console.log("NO user");
         // No user is signed in.
         AsyncStorage.getItem("user").then((usr) => setUser(usr));
       }
-      console.log("check", user, "chck");
     });
-    console.log("AHA", user, "chck");
   }, []);
 
-  console.log("checka", user);
   return user ? <UserStack /> : <AuthStack />;
 }

@@ -11,7 +11,8 @@ import { signOut, deleteUser, getAuth } from "firebase/auth";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import Timer from "../components/Timer";
+import Control from "../components/Control";
 const Home = ({ navigation }) => {
   const auth = getAuth();
   const { user } = useAuthentication();
@@ -25,7 +26,7 @@ const Home = ({ navigation }) => {
       // Add a new document in collection "users"
     } catch (error) {
       setError(error.message);
-      console.log(error);
+
       alert(error.message);
     }
   };
@@ -36,6 +37,9 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
+        <View style={styles.timerContainer}>
+          <Timer />
+        </View>
         <Text style={styles.Heading}>HOME sweet Home</Text>
         {user && (
           <Text style={styles.GreetingUser}>signed in as:{user.email}</Text>
@@ -53,10 +57,15 @@ const Home = ({ navigation }) => {
             <Text style={styles.signoutButtonText}>delete</Text>
           </TouchableOpacity>
         </View>
+        <View></View>
       </View>
     </SafeAreaView>
   );
 };
 
 export default Home;
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  timerContainer: {
+    margin: 5,
+  },
+});
