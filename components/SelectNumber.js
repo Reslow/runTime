@@ -5,7 +5,7 @@ const screen = Dimensions.get("window");
 
 export default function SelectNumber({ setNumbers, numbers, id }) {
   const [selectedNumber, setSelectedNumber] = useState(null);
-  const [numbersForArr, setNumbersForArr] = useState([]);
+  const [numbersForArr, setNumbersForArr] = useState([1, 2, 3]);
 
   useEffect(() => {
     const items = [];
@@ -30,13 +30,20 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
     addObject();
   }, [selectedNumber]);
   return (
-    <View style={{ padding: 0, margin: 0 }}>
-      {/* pick Number of Time */}
+    <View
+      style={{
+        padding: 0,
+        margin: 10,
+        justifyContent: "center",
+        display: "flex",
+      }}
+    >
       <Picker
         style={{
           height: 80,
-          width: screen.width / 4,
+          width: screen.width / 3,
           color: "#000000",
+          alignSelf: "center",
         }}
         selectedValue={selectedNumber}
         onValueChange={(itemValue, index) => setSelectedNumber(itemValue)}
@@ -46,12 +53,13 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
             return (
               <Picker.Item
                 key={i}
-                label={num}
-                value={num}
+                label={JSON.stringify(num)}
+                value={JSON.stringify(num)}
                 style={{
+                  width: "100%",
                   color: "black",
                   fontSize: 36,
-                  backgroundColor: "red",
+                  backgroundColor: "white",
                   fontStyle: "bold",
                 }}
               />

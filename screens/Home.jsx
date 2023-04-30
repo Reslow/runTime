@@ -12,7 +12,6 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Timer from "../components/Timer";
-import Control from "../components/Control";
 const Home = ({ navigation }) => {
   const auth = getAuth();
   const { user } = useAuthentication();
@@ -22,8 +21,6 @@ const Home = ({ navigation }) => {
     try {
       await deleteDoc(doc(db, "users", user.uid));
       await deleteUser(user).then((w) => console.log(w));
-      // navigation.navigate("Welcome");
-      // Add a new document in collection "users"
     } catch (error) {
       setError(error.message);
 

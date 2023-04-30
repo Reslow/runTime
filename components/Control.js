@@ -25,14 +25,6 @@ export default function Control() {
       id: "b",
       number: 0,
     },
-    {
-      id: "c",
-      number: 0,
-    },
-    {
-      id: "d",
-      number: 0,
-    },
   ];
 
   const [numbers, setNumbers] = useState(initialState);
@@ -56,8 +48,8 @@ export default function Control() {
   }
 
   function getMinAndSec(numbers = [0, 1, 0, 0]) {
-    const min = parseInt(numbers[0].number) * 10 + parseInt(numbers[1].number);
-    const sec = parseInt(numbers[2].number) * 10 + parseInt(numbers[3].number);
+    const min = parseInt(numbers[0].number);
+    const sec = parseInt(numbers[1].number);
     const totalSec = min * 60 + sec;
     setTotalSec(totalSec);
   }
@@ -65,17 +57,13 @@ export default function Control() {
   return (
     <View style={styles.container}>
       <Text style={styles.presentNumbers}>
-        {numbers[0].number}
-        {numbers[1].number} : {numbers[2].number}
-        {numbers[3].number}
+        {numbers[0].number}:{numbers[1].number}
       </Text>
       <Text style={styles.presentText}>{activity}</Text>
       <View style={styles.controlNumber}>
         <SelectNumber setNumbers={setNumbers} numbers={numbers} id="a" />
-        <SelectNumber setNumbers={setNumbers} numbers={numbers} id="b" />
         <Text style={{ fontSize: 36 }}>:</Text>
-        <SelectNumber setNumbers={setNumbers} numbers={numbers} id="c" />
-        <SelectNumber setNumbers={setNumbers} numbers={numbers} id="d" />
+        <SelectNumber setNumbers={setNumbers} numbers={numbers} id="b" />
       </View>
       <View style={styles.controlAct}>
         <SelectActivity setActivity={setActivity} activity={activity} />

@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import Control from "./Control";
 import { useSelector } from "react-redux";
+
 const formatNumbers = (number) => `0${number}`.slice(-2);
 const getTimeLeft = (time) => {
   const mins = Math.floor(time / 60);
@@ -27,6 +28,30 @@ export default function Timer() {
     setTimeLeft(timeLeftTotal[0] ? timeLeftTotal[0].sec : 0);
   }, [timeLeftTotal]);
 
+  function startTimer(duration, callback) {
+    let timer = duration;
+    let intervalId = setInterval(() => {
+      console.log(timer);
+      timer--;
+      if (timer < 0) {
+        clearInterval(intervalId);
+        callback();
+      }
+    }, 1000);
+  }
+
+  function startAllTimers() {
+    console.log("hellu");
+    const time = timeLeftTotal;
+
+    time.forEach((timer) => {
+      console.log(`Starting ${timer.sec}...`);
+      startTimer(timer.sec, () => {
+        console.log(`${timer.act} has finished!`);
+      });
+    });
+  }
+
   return (
     <View style={styles.container}>
       <Text>SET TIME</Text>
@@ -36,6 +61,9 @@ export default function Timer() {
       )} `}</Text>
 
       <Control />
+      <TouchableOpacity onPress={() => startAllTimers()}>
+        <Text>Klick</Text>
+      </TouchableOpacity>
     </View>
   );
 }
