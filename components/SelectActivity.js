@@ -1,7 +1,6 @@
 import { View, Dimensions } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useState, useEffect } from "react";
-const screen = Dimensions.get("window");
 export default function selectedActivity({ setActivity }) {
   const [selectedActivity, setSelectedActivity] = useState("Walk");
 

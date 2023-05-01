@@ -40,9 +40,12 @@ export default function Control() {
   }, [numbers, getMinAndSec]);
 
   function handleAdd() {
+    const id = Math.floor(Math.random() * 10000);
+    console.log(id);
     const resObj = {
       sec: totalSec,
       act: activity,
+      id: id,
     };
     dispatch(addNumbers(resObj));
   }

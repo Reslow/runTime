@@ -8,6 +8,7 @@ export const timeSlice = createSlice({
       const time = {
         sec: action.payload.sec,
         act: action.payload.act,
+        id: action.payload.id,
       };
 
       state.push(time);

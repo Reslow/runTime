@@ -16,37 +16,60 @@ const getTimeLeft = (time) => {
 
   return { mins: formatNumbers(mins), secs: formatNumbers(secs) };
 };
-
 const screen = Dimensions.get("window");
 
 export default function Timer() {
+  const [activeTimer, setActiveTimer] = useState({});
   const timeLeftTotal = useSelector((state) => state.addNumbers);
   const [timeLeft, setTimeLeft] = useState(timeLeftTotal);
+  const [displayTime, setDisplayTime] = useState(timeLeftTotal);
+  const [timeCon, setTimeCon] = useState([]);
   const { mins, secs } = getTimeLeft(timeLeft);
+  const [id, setId] = useState([{}]);
 
   useEffect(() => {
     setTimeLeft(timeLeftTotal[0] ? timeLeftTotal[0].sec : 0);
   }, [timeLeftTotal]);
 
-  function startTimer(duration, callback) {
-    let timer = duration;
+  useEffect(() => {
+    console.log("TIMECON", timeCon);
+  }, [timeCon]);
+  useEffect(() => {
+    console.log("active", activeTimer);
+  }, [activeTimer]);
+
+  function startTimer(data, callback) {
+    console.log("DATA", data);
+    let timer = data.sec;
     let intervalId = setInterval(() => {
-      console.log(timer);
       timer--;
+      setActiveTimer({ act: data.act, id: data.id, sec: timer });
+      setTimeCon({ act: data.act, id: data.id, sec: timer });
+      console.log("TIME", timer);
       if (timer < 0) {
         clearInterval(intervalId);
+        setTimeCon([]);
+
         callback();
       }
     }, 1000);
+    setId(intervalId);
   }
 
-  function startAllTimers() {
-    console.log("hellu");
-    const time = timeLeftTotal;
+  function PauseTimer() {
+    console.log("r", activeTimer);
+    setTimeCon([activeTimer]);
+    clearInterval(id);
+  }
 
+  function startAllTimers(data) {
+    console.log("START", data);
+    const time = data;
     time.forEach((timer) => {
-      console.log(`Starting ${timer.sec}...`);
-      startTimer(timer.sec, () => {
+      console.log(timer);
+      setDisplayTime(timer?.sec);
+      startTimer(timer, () => {
+        console.log("2", timer.sec);
         console.log(`${timer.act} has finished!`);
       });
     });
@@ -59,10 +82,17 @@ export default function Timer() {
       <Text style={styles.TimerText}>{`${JSON.stringify(
         timeLeftTotal
       )} `}</Text>
+      <Text>time : {displayTime && displayTime.sec}</Text>
 
       <Control />
-      <TouchableOpacity onPress={() => startAllTimers()}>
-        <Text>Klick</Text>
+      <TouchableOpacity onPress={() => startAllTimers(timeLeftTotal)}>
+        <Text>start</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => PauseTimer()}>
+        <Text>Paus</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => startAllTimers(timeCon)}>
+        <Text>Resume</Text>
       </TouchableOpacity>
     </View>
   );
