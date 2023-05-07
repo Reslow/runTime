@@ -30,20 +30,16 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
     addObject();
   }, [selectedNumber]);
   return (
-    <View
-      style={{
-        padding: 0,
-        margin: 10,
-        justifyContent: "center",
-        display: "flex",
-      }}
-    >
+    <View>
       <Picker
         style={{
-          height: 80,
-          width: screen.width / 3,
+          height: 70,
+          width: screen.width / 4,
+          display: "flex",
+          marginTop: 50,
+          marginHorizontal: 20,
           color: "#000000",
-          alignSelf: "center",
+          backgroundColor: "#00000045",
         }}
         selectedValue={selectedNumber}
         onValueChange={(itemValue, index) => setSelectedNumber(itemValue)}
@@ -56,11 +52,11 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
                 label={JSON.stringify(num)}
                 value={JSON.stringify(num)}
                 style={{
-                  width: "100%",
-                  color: "black",
-                  fontSize: 36,
-                  backgroundColor: "white",
-                  fontStyle: "bold",
+                  width: "50%",
+                  color: "white",
+                  fontSize: 18,
+                  backgroundColor: "#00000045",
+                  margin: 5,
                 }}
               />
             );

@@ -13,7 +13,7 @@ export default function selectedActivity({ setActivity }) {
       {/* pickActivity */}
       <Picker
         style={{
-          height: 100,
+          height: 50,
           width: "90%",
           display: "flex",
           alignSelf: "center",
@@ -21,8 +21,6 @@ export default function selectedActivity({ setActivity }) {
           marginTop: 0,
           marginHorizontal: "auto",
           color: "#000000",
-          alignContent: "center",
-          justifyContent: "center",
           backgroundColor: "#00000045",
         }}
         selectedValue={selectedActivity}
@@ -33,8 +31,9 @@ export default function selectedActivity({ setActivity }) {
           value="Walk"
           style={{
             color: "black",
-            fontSize: 36,
+            fontSize: 18,
             fontStyle: "bold",
+            backgroundColor: "#00000045",
           }}
         />
         <Picker.Item
@@ -42,8 +41,9 @@ export default function selectedActivity({ setActivity }) {
           value="Run"
           style={{
             color: "black",
-            fontSize: 36,
+            fontSize: 18,
             fontStyle: "bold",
+            backgroundColor: "#00000045",
           }}
         />
       </Picker>

@@ -59,10 +59,6 @@ export default function Control() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.presentNumbers}>
-        {numbers[0].number}:{numbers[1].number}
-      </Text>
-      <Text style={styles.presentText}>{activity}</Text>
       <View style={styles.controlNumber}>
         <SelectNumber setNumbers={setNumbers} numbers={numbers} id="a" />
         <Text style={{ fontSize: 36 }}>:</Text>
@@ -94,28 +90,25 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 45,
   },
-  container: {
-    backgroundColor: "#AFF3C0",
-  },
   controlAct: {
-    backgroundColor: "#ffc0cb",
+    backgroundColor: "#00000045",
     color: "#000000",
     paddingBottom: 50,
-    width: screen.width,
+    alignSelf: "center",
+    width: "90%",
   },
   controlNumber: {
-    backgroundColor: "#ffc0cb",
+    backgroundColor: "#00000045",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: "auto",
-    width: "100%",
+    width: "90%",
     alignSelf: "center",
   },
 
   presentNumbers: {
     display: "flex",
-    fontSize: 36,
     padding: 10,
     textAlign: "center",
   },

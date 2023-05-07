@@ -26,26 +26,28 @@ export default function Timer() {
   const [timeCon, setTimeCon] = useState([]);
   const { mins, secs } = getTimeLeft(timeLeft);
   const [id, setId] = useState([{}]);
+  const [active, setActive] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     setTimeLeft(timeLeftTotal[0] ? timeLeftTotal[0].sec : 0);
   }, [timeLeftTotal]);
 
   useEffect(() => {
-    console.log("TIMECON", timeCon);
+    setDisplayTime(timeCon);
   }, [timeCon]);
   useEffect(() => {
     console.log("active", activeTimer);
   }, [activeTimer]);
 
   function startTimer(data, callback) {
-    console.log("DATA", data);
     let timer = data.sec;
     let intervalId = setInterval(() => {
       timer--;
+      setDisplayTime(timer);
       setActiveTimer({ act: data.act, id: data.id, sec: timer });
       setTimeCon({ act: data.act, id: data.id, sec: timer });
-      console.log("TIME", timer);
+
       if (timer < 0) {
         clearInterval(intervalId);
         setTimeCon([]);
@@ -57,43 +59,57 @@ export default function Timer() {
   }
 
   function PauseTimer() {
-    console.log("r", activeTimer);
+    setPaused(true);
     setTimeCon([activeTimer]);
     clearInterval(id);
   }
 
+  function reset() {
+    setActive[false];
+    setPaused(false);
+    setTimeCon(timeLeftTotal);
+    clearInterval(id);
+  }
+
   function startAllTimers(data) {
-    console.log("START", data);
+    setActive(true);
+    setPaused(false);
     const time = data;
     time.forEach((timer) => {
-      console.log(timer);
-      setDisplayTime(timer?.sec);
+      setDisplayTime(timer);
       startTimer(timer, () => {
-        console.log("2", timer.sec);
-        console.log(`${timer.act} has finished!`);
+        setActive(false);
       });
     });
   }
 
   return (
     <View style={styles.container}>
-      <Text>SET TIME</Text>
       <Text style={styles.TimerText}>{`${mins}:${secs}`}</Text>
-      <Text style={styles.TimerText}>{`${JSON.stringify(
-        timeLeftTotal
-      )} `}</Text>
+      <Text style={styles.TimerText}>{displayTime.sec}</Text>
       <Text>time : {displayTime && displayTime.sec}</Text>
 
       <Control />
-      <TouchableOpacity onPress={() => startAllTimers(timeLeftTotal)}>
-        <Text>start</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => PauseTimer()}>
-        <Text>Paus</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => startAllTimers(timeCon)}>
-        <Text>Resume</Text>
-      </TouchableOpacity>
+      {!active ? (
+        <TouchableOpacity onPress={() => startAllTimers(timeLeftTotal)}>
+          <Text>start</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={() => PauseTimer()}>
+          <Text>Paus</Text>
+        </TouchableOpacity>
+      )}
+
+      {active && paused && (
+        <View>
+          <TouchableOpacity onPress={() => startAllTimers(timeCon)}>
+            <Text>Resume</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => reset(timeCon)}>
+            <Text>Reset</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -102,7 +118,7 @@ const styles = StyleSheet.create(
   { screen },
   {
     container: {
-      backgroundColor: "#a9a9a9",
+      backgroundColor: "blue",
       padding: 40,
     },
     TimerText: {
