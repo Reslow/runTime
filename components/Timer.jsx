@@ -20,7 +20,7 @@ const screen = Dimensions.get("window");
 
 export default function Timer() {
   const [activeTimer, setActiveTimer] = useState({});
-  const timeLeftTotal = useSelector((state) => state.addNumbers);
+  const timeLeftTotal = useSelector((state) => state.time);
   const [timeLeft, setTimeLeft] = useState(timeLeftTotal);
   const [displayTime, setDisplayTime] = useState(timeLeftTotal);
   const [timeCon, setTimeCon] = useState([]);

@@ -13,6 +13,7 @@ import { db } from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Timer from "../components/Timer";
 import Menu from "../components/Menu";
+import List from "../components/List";
 const Home = ({ navigation }) => {
   const auth = getAuth();
   const { user } = useAuthentication();
@@ -37,7 +38,9 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <View style={styles.timerContainer}></View>
+        <View style={styles.timerContainer}>
+          <List />
+        </View>
         <Menu handleSignout={handleSignout} handleDelete={handleDelete} />
         {user && (
           <Text style={styles.GreetingUser}>signed in as:{user.email}</Text>

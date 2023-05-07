@@ -41,7 +41,6 @@ export default function Control() {
 
   function handleAdd() {
     const id = Math.floor(Math.random() * 10000);
-    console.log(id);
     const resObj = {
       sec: totalSec,
       act: activity,

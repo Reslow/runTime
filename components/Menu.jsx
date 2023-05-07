@@ -29,7 +29,6 @@ export default function MenuComponent({ handleSignout, handleDelete }) {
           onRequestClose={hideMenu}
         >
           <MenuItem onPress={hideMenu}>
-            {" "}
             <Text onPress={hideMenu}>
               <MaterialIcons name="close" size={36} color="black" />
             </Text>

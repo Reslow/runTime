@@ -3,7 +3,7 @@ import timeSlice from "./slice/timeSlice";
 
 const reduxStore = configureStore({
   reducer: {
-    addNumbers: timeSlice,
+    time: timeSlice,
   },
 });
 

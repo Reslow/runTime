@@ -13,8 +13,11 @@ export const timeSlice = createSlice({
 
       state.push(time);
     },
-    removeNumbers: (state) => {
-      state.shift();
+
+    removeNumbers: (state, action) => {
+      console.log("action", action.payload);
+      const newState = state.filter((item) => item.id !== action.payload);
+      return newState;
     },
   },
 });
