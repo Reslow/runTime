@@ -1,14 +1,27 @@
 import { View, TouchableOpacity, StyleSheet, screen, Text } from "react-native";
 import { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import { signOut, deleteUser, getAuth } from "firebase/auth";
+import { useAuthentication } from "../hooks/useAuthentication";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Menu, MenuItem } from "react-native-material-menu";
 
-import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
-
-export default function MenuComponent({ handleSignout, handleDelete }) {
+export default function MenuComponent() {
   const [visible, setVisible] = useState(false);
-  const hideMenu = () => setVisible(false);
+  const auth = getAuth();
+  const { user } = useAuthentication();
 
+  const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
+
+  async function handleSignout() {
+    console.log("bye");
+    await AsyncStorage.setItem("user", "");
+    console.log("bye");
+
+    await signOut(auth);
+    console.log("bye");
+  }
 
   return (
     <View style={styles.container}>
@@ -33,7 +46,13 @@ export default function MenuComponent({ handleSignout, handleDelete }) {
               <MaterialIcons name="close" size={36} color="black" />
             </Text>
           </MenuItem>
-          <MenuItem onPress={(hideMenu, handleSignout)}>logout</MenuItem>
+          <MenuItem
+            onPress={() => {
+              [hideMenu, handleSignout()];
+            }}
+          >
+            logout
+          </MenuItem>
         </Menu>
       </View>
     </View>

@@ -6,7 +6,6 @@ import {
   Dimensions,
 } from "react-native";
 import { useEffect, useState } from "react";
-import Control from "./Control";
 import { useSelector } from "react-redux";
 
 const formatNumbers = (number) => `0${number}`.slice(-2);
@@ -21,32 +20,23 @@ const screen = Dimensions.get("window");
 export default function Timer() {
   const [activeTimer, setActiveTimer] = useState({});
   const timeLeftTotal = useSelector((state) => state.time);
-  const [timeLeft, setTimeLeft] = useState(timeLeftTotal);
-  const [displayTime, setDisplayTime] = useState(timeLeftTotal);
   const [timeCon, setTimeCon] = useState([]);
-  const { mins, secs } = getTimeLeft(timeLeft);
   const [id, setId] = useState([{}]);
   const [active, setActive] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [totalTime, setTotalTime] = useState(0);
 
   useEffect(() => {
-    setTimeLeft(timeLeftTotal[0] ? timeLeftTotal[0].sec : 0);
+    var total = timeLeftTotal.reduce((accum, item) => accum + item.sec, 0);
+    setTotalTime(total);
   }, [timeLeftTotal]);
-
-  useEffect(() => {
-    setDisplayTime(timeCon);
-  }, [timeCon]);
-  useEffect(() => {
-    console.log("active", activeTimer);
-  }, [activeTimer]);
 
   function startTimer(data, callback) {
     let timer = data.sec;
     let intervalId = setInterval(() => {
-      timer--;
-      setDisplayTime(timer);
       setActiveTimer({ act: data.act, id: data.id, sec: timer });
       setTimeCon({ act: data.act, id: data.id, sec: timer });
+      timer--;
 
       if (timer < 0) {
         clearInterval(intervalId);
@@ -71,25 +61,27 @@ export default function Timer() {
     clearInterval(id);
   }
 
-  function startAllTimers(data) {
-    setActive(true);
-    setPaused(false);
+  function startAllTimers(data, val = 0) {
     const time = data;
-    time.forEach((timer) => {
-      setDisplayTime(timer);
-      startTimer(timer, () => {
-        setActive(false);
+    setTimeout(() => {
+      startTimer(time[val], () => {
+        val++;
+        if (val < data.length) {
+          startAllTimers(time, val);
+        }
+        if (val === data.length) {
+          console.log("DOne");
+        }
       });
-    });
+    }, 1000);
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.TimerText}>{`${mins}:${secs}`}</Text>
-      <Text style={styles.TimerText}>{displayTime.sec}</Text>
-      <Text>time : {displayTime && displayTime.sec}</Text>
+      <Text>total: {totalTime}</Text>
+      <Text style={styles.TimerText}>{activeTimer.act}</Text>
+      <Text>time : {activeTimer.sec}</Text>
 
-      <Control />
       {!active ? (
         <TouchableOpacity onPress={() => startAllTimers(timeLeftTotal)}>
           <Text>start</Text>

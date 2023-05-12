@@ -3,6 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import store from "../redux/store";
 import Home from "../screens/Home";
+import Run from "../screens/Run";
+import NewRun from "../screens/NewRun";
 import { Provider } from "react-redux";
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +17,12 @@ export default function UserStack() {
             headerShown: false,
           }}
         >
+          {/* //startsida// */}
           <Stack.Screen name="Home" component={Home} />
+          {/* //skapa intervaler/löprundor// */}
+          <Stack.Screen name="New" component={NewRun} />
+          {/* //köra intervaler/löprundor// */}
+          <Stack.Screen name="Run" component={Run} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

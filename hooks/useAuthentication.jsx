@@ -1,23 +1,29 @@
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const auth = getAuth();
 export function useAuthentication() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
-    const unsubscribeFromAuthStatuChanged = onAuthStateChanged(auth, (user) => {
+    auth.onAuthStateChanged(function (user) {
+      console.log("check", user, "check");
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        setUser(user);
-      } else {
-        // User is signed out
-        setUser(undefined);
-      }
-    });
+        // User is signed in.
+        console.log("YEP");
 
-    return unsubscribeFromAuthStatuChanged;
+        setUser(user);
+        // ...
+      } else {
+        console.log("NO");
+
+        // User is signed out.
+
+        AsyncStorage.getItem("user").then((i) => setUser(i));
+      }
+      // ...
+    });
   }, []);
 
   return {

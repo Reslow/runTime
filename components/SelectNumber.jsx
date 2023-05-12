@@ -36,7 +36,6 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
           height: 70,
           width: screen.width / 4,
           display: "flex",
-          marginTop: 50,
           marginHorizontal: 20,
           color: "#000000",
           backgroundColor: "#00000045",
