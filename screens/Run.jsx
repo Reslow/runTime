@@ -3,8 +3,10 @@ import Timer from "../components/Timer";
 import Countdown from "../components/CountDown";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Audio } from "expo-av";
 
 const Run = ({ navigation }) => {
+  const [sound, setSound] = useState();
   const [showCountdown, setShowCountdown] = useState(false);
   const [activeTimer, setActiveTimer] = useState({});
   const timeLeftTotal = useSelector((state) => state.time);
@@ -27,10 +29,12 @@ const Run = ({ navigation }) => {
       setTimeCon({ act: data.act, id: data.id, sec: timer });
       timer--;
 
+      if (timer < 4) {
+        playSound();
+      }
       if (timer < 0) {
         clearInterval(intervalId);
         setTimeCon([]);
-
         callback();
       }
     }, 1000);
@@ -67,6 +71,24 @@ const Run = ({ navigation }) => {
     }, 1000);
   }
 
+  async function playSound() {
+    console.log("Loading Sound");
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/sound/554056__gronkjaer__clockbeep.mp3")
+    );
+    setSound(sound);
+
+    await sound.playAsync();
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
   return (
     <View style={styles.container}>
       <TouchableOpacity
