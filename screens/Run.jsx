@@ -15,6 +15,7 @@ const Run = ({ navigation }) => {
   const [active, setActive] = useState(false);
   const [paused, setPaused] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
+  const [upComing, setUpComing] = useState([]);
 
   useEffect(() => {
     var total = timeLeftTotal.reduce((accum, item) => accum + item.sec, 0);
@@ -22,7 +23,6 @@ const Run = ({ navigation }) => {
   }, [timeLeftTotal]);
 
   function startTimer(data, callback) {
-    console.log(data);
     let timer = data.sec;
     let intervalId = setInterval(() => {
       setActiveTimer({ act: data.act, id: data.id, sec: timer });
@@ -44,10 +44,11 @@ const Run = ({ navigation }) => {
   function PauseTimer() {
     setPaused(true);
     setTimeCon([activeTimer]);
-    console.log(activeTimer);
     clearInterval(id);
   }
-
+  useEffect(() => {
+    console.log("up", upComing);
+  }, [upComing]);
   function reset() {
     setActive(false);
     setPaused(false);
@@ -59,6 +60,7 @@ const Run = ({ navigation }) => {
   function startAllTimers(data, val = 0) {
     const time = data;
     setTimeout(() => {
+      setUpComing(time[val + 1]);
       startTimer(time[val], () => {
         val++;
         if (val < data.length) {
@@ -66,13 +68,13 @@ const Run = ({ navigation }) => {
         }
         if (val === data.length) {
           setActive(false);
+          setUpComing([]);
         }
       });
     }, 1000);
   }
 
   async function playSound() {
-    console.log("Loading Sound");
     const { sound } = await Audio.Sound.createAsync(
       require("../assets/sound/554056__gronkjaer__clockbeep.mp3")
     );
@@ -84,7 +86,6 @@ const Run = ({ navigation }) => {
   useEffect(() => {
     return sound
       ? () => {
-          console.log("Unloading Sound");
           sound.unloadAsync();
         }
       : undefined;
@@ -132,6 +133,18 @@ const Run = ({ navigation }) => {
               <Text>Reset</Text>
             </TouchableOpacity>
           </View>
+        )}
+      </View>
+
+      <View>
+        <Text>UPCOMING</Text>
+        {upComing ? (
+          <View>
+            <Text> {upComing.sec} </Text>
+            <Text> {upComing.act} </Text>
+          </View>
+        ) : (
+          <Text>Last set</Text>
         )}
       </View>
     </View>

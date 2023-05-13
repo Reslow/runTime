@@ -26,6 +26,7 @@ export default function HistoryList({ user }) {
     }
 
     if (user) {
+      console.log("user", user);
       getDataFromDB();
     }
     console.log(listofData);

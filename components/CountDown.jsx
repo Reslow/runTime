@@ -15,7 +15,6 @@ export default function Countdown({
   }, []);
 
   async function playSound() {
-    console.log("Loading Sound");
     const { sound } = await Audio.Sound.createAsync(
       require("../assets/sound/554056__gronkjaer__clockbeep.mp3")
     );
@@ -27,7 +26,6 @@ export default function Countdown({
   useEffect(() => {
     return sound
       ? () => {
-          console.log("Unloading Sound");
           sound.unloadAsync();
         }
       : undefined;
