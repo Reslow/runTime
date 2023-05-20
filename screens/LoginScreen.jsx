@@ -10,23 +10,20 @@ import {
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuthentication } from "../hooks/useAuthentication";
+
 const userAuth = getAuth();
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [pwd, setPWD] = useState("");
-  const [user, setUser] = useState(undefined);
+  const { setUser } = useAuthentication();
 
   const HandleLogin = async () => {
     try {
-      const currentUser = await signInWithEmailAndPassword(
-        userAuth,
-        email,
-        pwd
-      ).then((usr) => {
+      await signInWithEmailAndPassword(userAuth, email, pwd).then((usr) => {
         setUser(usr);
-        console.log(usr, "CHECK USR");
         if (usr !== undefined || usr !== null) {
-          AsyncStorage.setItem("user", JSON.stringify(usr));
+          AsyncStorage.setItem("user", JSON.stringify(usr.user));
         }
       });
     } catch (error) {

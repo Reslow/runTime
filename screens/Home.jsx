@@ -9,38 +9,40 @@ import {
 import HistoryList from "../components/HistoryList";
 
 import Menu from "../components/Menu";
-import List from "../components/List";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuthentication } from "../hooks/useAuthentication";
-import { getAuth } from "firebase/auth";
 
-const Home = ({ navigation }) => {
-  const { user } = useAuthentication();
+const Home = ({ navigation, user }) => {
+  const { authuser } = useAuthentication();
+  const [signedIn, setSignedIn] = useState();
 
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "users", user.uid));
-      await deleteUser(user).then((w) => console.log(w));
+      await deleteDoc(doc(db, "users", authuser.uid));
+      await deleteUser(authuser).then((w) => console.log(w));
     } catch (error) {
       alert(error.message);
     }
   };
 
+  useEffect(() => {
+    const userObj = user;
+
+    setSignedIn(userObj);
+  }, []);
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.menuContainer}>
-          <Menu />
+          <Menu navigation={navigation} />
         </View>
         <View style={styles.mainContentContainer}>
-          <View>
-            <Text>
-              signed in as {user && JSON.parse(user).currentUser.email}
-            </Text>
-          </View>
-          <HistoryList user={user && user.email} />
+          <View>{signedIn}</View>
+          <HistoryList user={user} />
           <TouchableOpacity
+            user={user}
             style={[styles.button, styles.primary]}
             onPress={() => navigation.navigate("New")}
           >

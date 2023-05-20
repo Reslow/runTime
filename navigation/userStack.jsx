@@ -8,7 +8,7 @@ import NewRun from "../screens/NewRun";
 import { Provider } from "react-redux";
 const Stack = createNativeStackNavigator();
 
-export default function UserStack() {
+export default function UserStack({ user }) {
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -18,7 +18,7 @@ export default function UserStack() {
           }}
         >
           {/* //startsida// */}
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={Home} user={user} />
           {/* //skapa intervaler/löprundor// */}
           <Stack.Screen name="New" component={NewRun} />
           {/* //köra intervaler/löprundor// */}

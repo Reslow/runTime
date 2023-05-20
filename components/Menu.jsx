@@ -1,12 +1,17 @@
 import { View, TouchableOpacity, StyleSheet, screen, Text } from "react-native";
 import { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { signOut, deleteUser, getAuth } from "firebase/auth";
+import {
+  signOut,
+  deleteUser,
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { useAuthentication } from "../hooks/useAuthentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Menu, MenuItem } from "react-native-material-menu";
 
-export default function MenuComponent() {
+export default function MenuComponent({ navigation }) {
   const [visible, setVisible] = useState(false);
   const auth = getAuth();
   const { user } = useAuthentication();
@@ -17,10 +22,13 @@ export default function MenuComponent() {
   async function handleSignout() {
     console.log("bye");
     await AsyncStorage.setItem("user", "");
-    console.log("bye");
+    await AsyncStorage.setItem("data", "");
+    console.log("s", auth);
 
-    await signOut(auth);
-    console.log("bye");
+    const signed = await signOut(auth);
+    console.log("signed", signed);
+
+    // navigation.navigate("Root");
   }
 
   return (

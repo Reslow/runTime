@@ -13,6 +13,9 @@ export const timeSlice = createSlice({
 
       state.push(time);
     },
+    addList: (state, action) => {
+      state += action.payload;
+    },
 
     removeNumbers: (state, action) => {
       console.log("action", action.payload);

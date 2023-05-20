@@ -28,10 +28,33 @@ const NewRun = ({ navigation }) => {
       const dateTitle = new Date();
       const runId = Math.floor(1000 + Math.random() * 10000);
       const email = JSON.parse(user).currentUser.email;
-      await setDoc(doc(db, "runs", JSON.stringify(runId)), {
-        title: title.length > 0 ? title : dateTitle,
+
+      const data = {
+        title: title.length > 0 ? title : dateTitle.toString(),
         user: email,
         runs: timeLeftTotal,
+        totalTime: timeLeftTotal.reduce((accum, item) => accum + item.sec, 0),
+      };
+      const savedUser = await AsyncStorage.getItem("user");
+      if (JSON.parse(savedUser.email) === user.email) {
+        AsyncStorage.setItem(
+          "data",
+          JSON.stringify({
+            runId: {
+              title: data.title,
+              user: data.email,
+              runs: data.runs,
+              totalTime: data.totalTime,
+            },
+          })
+        );
+      }
+
+      await setDoc(doc(db, "runs", JSON.stringify(runId)), {
+        title: data.title,
+        user: data.email,
+        runs: data.runs,
+        totalTime: data.totalTime,
       });
     }
     navigation.navigate("Run");
