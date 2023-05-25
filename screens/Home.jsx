@@ -33,15 +33,20 @@ const Home = ({ navigation }) => {
         console.log(doc);
       });
 
-      const h = await deleteUser(user);
-      console.log(h);
+      await deleteUser(user);
     } catch (error) {
       alert(error.message);
     }
   };
 
-  function navigateToRun() {
-    navigation.navigate("RunList");
+  function navigateToRun(id) {
+    navigation.navigate("RunList", {
+      selectedId: id,
+    });
+  }
+
+  function navigateToHome() {
+    navigation.navigate("Home");
   }
 
   return (
@@ -54,7 +59,10 @@ const Home = ({ navigation }) => {
           <View>
             <Text>Hi {user && user.email} </Text>
           </View>
-          <HistoryList navigation={navigateToRun} />
+          <HistoryList
+            navigationToRun={navigateToRun}
+            navigationToHome={navigateToHome}
+          />
           <TouchableOpacity
             user={user}
             style={[styles.button, styles.primary]}

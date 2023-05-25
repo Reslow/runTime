@@ -94,7 +94,7 @@ const Run = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Runlist")}
+        onPress={() => navigation.navigate("RunList")}
         style={styles.navigationLink}
       >
         <Text style={styles.navigationLinkText}>back</Text>

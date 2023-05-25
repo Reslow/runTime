@@ -22,12 +22,12 @@ import { useDispatch } from "react-redux";
 import { addList } from "../redux/slice/timeSlice";
 import { useAuthentication } from "../hooks/useAuthentication";
 
-export default function HistoryList({ navigation }) {
+export default function HistoryList({ navigationToRun, navigationToHome }) {
   const [listofData, setlistOfData] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [selected, setSelected] = useState("");
   const dispatch = useDispatch();
   const { user, setUser } = useAuthentication();
+  const [selected, setSelected] = useState("");
 
   useEffect(() => {
     console.log(showSpinner);
@@ -54,23 +54,18 @@ export default function HistoryList({ navigation }) {
   }, [user]);
 
   async function handleDeleteItem(id) {
-    console.log("<SEL", id);
-    console.log(listofData);
-    await deleteDoc(doc(db, "runs", selected));
+    await deleteDoc(doc(db, "runs", id));
+    navigationToHome();
+  }
+  async function handleSelect(runs, id) {
+    dispatch(addList(runs));
+    navigationToRun(id);
   }
 
   const Item = ({ item }) => (
     <View style={styles.item} id={JSON.stringify(item.id)}>
       <TouchableOpacity>
-        <Text
-          onPress={() => [
-            dispatch(addList(item.runs)),
-            setSelected(JSON.parse(item.id)),
-            navigation(),
-          ]}
-        >
-          select
-        </Text>
+        <Text onPress={() => handleSelect(item.runs, item.id)}>select</Text>
       </TouchableOpacity>
       <Text style={styles.title}>{item.title}</Text>
       <Text>{item.runs?.length}</Text>

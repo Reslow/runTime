@@ -8,8 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
-import Control from "../components/Control";
+import React, { useEffect, useState } from "react";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { useSelector } from "react-redux";
 import { doc, setDoc } from "firebase/firestore";
@@ -17,11 +16,13 @@ import { db } from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Runlist = ({ navigation }) => {
+const Runlist = ({ route, navigation }) => {
   const [isActive, setIsActive] = useState(false);
   const [title, setTitle] = useState("");
   const { user } = useAuthentication();
   const timeLeftTotal = useSelector((state) => state.time);
+
+  const { selectedId } = route.params;
 
   const toggleSwitch = () => setIsActive((previousState) => !previousState);
 
@@ -61,11 +62,14 @@ const Runlist = ({ navigation }) => {
     navigation.navigate("Run");
   };
 
+  useEffect(() => {
+    console.log(timeLeftTotal);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.navContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("New")}
+          onPress={() => navigation.navigate("Home")}
           style={styles.navigationLink}
         >
           <Text style={styles.navigationLinkText}>back</Text>
@@ -73,7 +77,7 @@ const Runlist = ({ navigation }) => {
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>Run</Text>
-        <List />
+        <List selected={selectedId} />
         <View style={styles.save}>
           <View style={styles.saveControl}>
             <Text>save to profile?</Text>

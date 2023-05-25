@@ -6,21 +6,41 @@ import {
   FlatList,
   Text,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { removeNumbers } from "../redux/slice/timeSlice";
-export default function List() {
+import {
+  doc,
+  updateDoc,
+  deleteField,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
+import { db } from "../firebase";
+
+export default function List({ selected }) {
   //data array of object representing runs
   const timeLeftTotal = useSelector((state) => state.time);
   const dispatch = useDispatch();
-  function handleDeleteItem(id) {
+
+  async function handleDeleteItem(id) {
     dispatch(removeNumbers(id));
-    console.log("total", timeLeftTotal);
+
+    const runRef = doc(db, "runs", selected);
+    const docSnap = await getDoc(runRef);
+    const list = docSnap.data();
+    const runs = list.runs;
+    const filtered = runs.filter((run) => run.id !== id);
+    console.log(id);
+    console.log("fil", filtered);
+    await updateDoc(runRef, {
+      runs: filtered,
+    });
   }
+
   const Item = ({ item }) => (
     <View style={styles.item} id={JSON.stringify(item.id)}>
-      {console.log(item)}
+      {console.log("item", item)}
       <Text style={styles.title}>{item.sec} </Text>
       <Text style={styles.title}>{item.act}</Text>
       <TouchableOpacity
