@@ -38,6 +38,7 @@ const Runlist = ({ route, navigation }) => {
         runs: timeLeftTotal,
         totalTime: timeLeftTotal.reduce((accum, item) => accum + item.sec, 0),
       };
+
       const savedUser = await AsyncStorage.getItem("user");
       if (savedUser.email === user.email) {
         AsyncStorage.setItem(

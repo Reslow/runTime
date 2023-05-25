@@ -25,14 +25,11 @@ export default function List({ selected }) {
 
   async function handleDeleteItem(id) {
     dispatch(removeNumbers(id));
-
     const runRef = doc(db, "runs", selected);
     const docSnap = await getDoc(runRef);
     const list = docSnap.data();
     const runs = list.runs;
     const filtered = runs.filter((run) => run.id !== id);
-    console.log(id);
-    console.log("fil", filtered);
     await updateDoc(runRef, {
       runs: filtered,
     });
