@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     borderRadius: 5,
-    margin: 10,
   },
   addBtnText: {
     color: "#ffffff",
@@ -89,20 +88,21 @@ const styles = StyleSheet.create({
     fontSize: 45,
   },
   controlAct: {
-    backgroundColor: "#00000045",
+    backgroundColor: "#ffffff",
     color: "#000000",
     alignSelf: "center",
     width: "100%",
   },
   controlNumber: {
-    backgroundColor: "#00000045",
+    backgroundColor: "#ffffff",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginHorizontal: "auto",
     width: "100%",
     alignSelf: "center",
   },
 
-  container: { margin: 5 },
+  container: { marginHorizontal: "auto" },
 });

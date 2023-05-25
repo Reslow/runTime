@@ -14,7 +14,6 @@ export default function List() {
   //data array of object representing runs
   const timeLeftTotal = useSelector((state) => state.time);
   const dispatch = useDispatch();
-  console.log(timeLeftTotal);
   function handleDeleteItem(id) {
     dispatch(removeNumbers(id));
     console.log("total", timeLeftTotal);

@@ -16,7 +16,7 @@ export function useAuthentication() {
       } else {
         console.log("NO");
         // User is signed out.
-        AsyncStorage.getItem("user").then((i) => setUser(i));
+        AsyncStorage.getItem("user").then((i) => setUser(JSON.parse(i)));
       }
       // ...
     });

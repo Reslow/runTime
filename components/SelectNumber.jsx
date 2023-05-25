@@ -33,11 +33,11 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
     <View>
       <Picker
         style={{
-          height: 70,
+          height: 150,
           width: screen.width / 4,
-          display: "flex",
-          marginHorizontal: 20,
+          margin: 20,
           color: "#000000",
+          display: "flex",
           backgroundColor: "#00000045",
         }}
         selectedValue={selectedNumber}
@@ -51,11 +51,10 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
                 label={JSON.stringify(num)}
                 value={JSON.stringify(num)}
                 style={{
-                  width: "50%",
+                  width: "30%",
+                  height: 30,
                   color: "white",
                   fontSize: 18,
-                  backgroundColor: "#00000045",
-                  margin: 5,
                 }}
               />
             );

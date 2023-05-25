@@ -5,6 +5,7 @@ import store from "../redux/store";
 import Home from "../screens/Home";
 import Run from "../screens/Run";
 import NewRun from "../screens/NewRun";
+import Runlist from "../screens/Runlist";
 import { Provider } from "react-redux";
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function UserStack({ user }) {
           <Stack.Screen name="New" component={NewRun} />
           {/* //köra intervaler/löprundor// */}
           <Stack.Screen name="Run" component={Run} />
+          <Stack.Screen name="RunList" component={Runlist} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

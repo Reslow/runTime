@@ -7,30 +7,42 @@ import {
   SafeAreaView,
 } from "react-native";
 import HistoryList from "../components/HistoryList";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Menu from "../components/Menu";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuthentication } from "../hooks/useAuthentication";
+import { deleteUser } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
-const Home = ({ navigation, user }) => {
-  const { authuser } = useAuthentication();
-  const [signedIn, setSignedIn] = useState();
+const Home = ({ navigation }) => {
+  const { user } = useAuthentication();
 
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "users", authuser.uid));
-      await deleteUser(authuser).then((w) => console.log(w));
+      await AsyncStorage.setItem("user", "");
+      await AsyncStorage.setItem("data", "");
+      await deleteDoc(doc(db, "users", user.uid));
+      const runsRef = collection(db, "runs");
+      const q = query(runsRef, where("user", "==", user.email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc);
+        const docref = doc.ref;
+        deleteDoc(docref);
+        console.log(doc);
+      });
+
+      const h = await deleteUser(user);
+      console.log(h);
     } catch (error) {
       alert(error.message);
     }
   };
 
-  useEffect(() => {
-    const userObj = user;
-
-    setSignedIn(userObj);
-  }, []);
+  function navigateToRun() {
+    navigation.navigate("RunList");
+  }
 
   return (
     <SafeAreaView>
@@ -39,8 +51,10 @@ const Home = ({ navigation, user }) => {
           <Menu navigation={navigation} />
         </View>
         <View style={styles.mainContentContainer}>
-          <View>{signedIn}</View>
-          <HistoryList user={user} />
+          <View>
+            <Text>Hi {user && user.email} </Text>
+          </View>
+          <HistoryList navigation={navigateToRun} />
           <TouchableOpacity
             user={user}
             style={[styles.button, styles.primary]}

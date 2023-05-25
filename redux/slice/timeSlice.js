@@ -26,7 +26,7 @@ export const timeSlice = createSlice({
 });
 
 // this is for dispatch
-export const { addNumbers, removeNumbers } = timeSlice.actions;
+export const { addNumbers, removeNumbers, addList } = timeSlice.actions;
 
 // this is for configureStore
 export default timeSlice.reducer;

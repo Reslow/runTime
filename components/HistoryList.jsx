@@ -1,7 +1,14 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect } from "react";
-import { doc, deleteDoc } from "firebase/firestore";
+
 import {
   View,
   TouchableOpacity,
@@ -15,25 +22,12 @@ import { useDispatch } from "react-redux";
 import { addList } from "../redux/slice/timeSlice";
 import { useAuthentication } from "../hooks/useAuthentication";
 
-export default function HistoryList() {
+export default function HistoryList({ navigation }) {
   const [listofData, setlistOfData] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [selected, setSelected] = useState("");
   const dispatch = useDispatch();
   const { user, setUser } = useAuthentication();
-  useEffect(() => {
-    console.log(user, "användare");
-    console.log(listofData);
-    console.log("check hhhhb");
-
-    console.log(listofData[0]);
-    if (listofData?.length > 0) {
-      setShowSpinner(false);
-    } else {
-      console.log("ab");
-      console.log(user);
-      setShowSpinner(true);
-    }
-  }, [listofData]);
 
   useEffect(() => {
     console.log(showSpinner);
@@ -41,38 +35,43 @@ export default function HistoryList() {
 
   useEffect(() => {
     async function getDataFromDB(email) {
-      console.log(email);
       const q = query(collection(db, "runs"), where("user", "==", email));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         const res = doc.data();
         setlistOfData((prev) => [...prev, res]);
       });
+      setShowSpinner(false);
     }
 
-    console.log("abc");
     if (user !== null) {
-      console.log("jiju", user);
-      if (typeof user == Object) {
-        getDataFromDB(data.email);
-      } else {
-        console.log(typeof user);
+      if (typeof user === "") {
         getDataFromDB(JSON.parse(user).email);
+      } else {
+        getDataFromDB(user.email);
       }
     }
-    console.log("absc");
   }, [user]);
 
-  async function handleDeleteItem() {
-    console.log("delete");
+  async function handleDeleteItem(id) {
+    console.log("<SEL", id);
+    console.log(listofData);
+    await deleteDoc(doc(db, "runs", selected));
   }
 
   const Item = ({ item }) => (
-    <View
-      style={styles.item}
-      id={JSON.stringify(item.id)}
-      onPress={() => dispatch(addList(item.runs))}
-    >
+    <View style={styles.item} id={JSON.stringify(item.id)}>
+      <TouchableOpacity>
+        <Text
+          onPress={() => [
+            dispatch(addList(item.runs)),
+            setSelected(JSON.parse(item.id)),
+            navigation(),
+          ]}
+        >
+          select
+        </Text>
+      </TouchableOpacity>
       <Text style={styles.title}>{item.title}</Text>
       <Text>{item.runs?.length}</Text>
       <TouchableOpacity
@@ -88,6 +87,7 @@ export default function HistoryList() {
     <View style={styles.container}>
       <View>
         <Text>History</Text>
+        {listofData.length === 0 && <Text>no data yet</Text>}
       </View>
       {showSpinner === true && (
         <View>

@@ -1,12 +1,7 @@
 import { View, TouchableOpacity, StyleSheet, screen, Text } from "react-native";
 import { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import {
-  signOut,
-  deleteUser,
-  getAuth,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { useAuthentication } from "../hooks/useAuthentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Menu, MenuItem } from "react-native-material-menu";

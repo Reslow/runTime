@@ -15,8 +15,9 @@ import { useSelector } from "react-redux";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const NewRun = ({ navigation }) => {
+const Runlist = ({ navigation }) => {
   const [isActive, setIsActive] = useState(false);
   const [title, setTitle] = useState("");
   const { user } = useAuthentication();
@@ -29,7 +30,6 @@ const NewRun = ({ navigation }) => {
       const dateTitle = new Date();
       const runId = Math.floor(1000 + Math.random() * 10000);
       const email = user.email;
-      console.log("email", email);
 
       const data = {
         title: title.length > 0 ? title : dateTitle.toString(),
@@ -47,7 +47,6 @@ const NewRun = ({ navigation }) => {
               user: data.user,
               runs: data.runs,
               totalTime: data.totalTime,
-              id: JSON.stringify(runId),
             },
           })
         );
@@ -57,25 +56,23 @@ const NewRun = ({ navigation }) => {
         user: data.user,
         runs: data.runs,
         totalTime: data.totalTime,
-        id: JSON.stringify(runId),
       });
     }
-    navigation.navigate("RunList");
+    navigation.navigate("Run");
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.navContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("New")}
           style={styles.navigationLink}
         >
           <Text style={styles.navigationLinkText}>back</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
-        <Text style={styles.title}>Create run</Text>
-        <Control />
+        <Text style={styles.title}>Run</Text>
         <List />
         <View style={styles.save}>
           <View style={styles.saveControl}>
@@ -108,12 +105,12 @@ const NewRun = ({ navigation }) => {
       >
         <Text style={[styles.buttonText, styles.primary]}>Run</Text>
       </TouchableOpacity>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    margin: 20,
     flex: 1,
   },
   navContainer: {},
@@ -160,4 +157,4 @@ const styles = StyleSheet.create({
   title: { textAlign: "center", fontSize: 36, fontFamily: "rub-xbold" },
 });
 
-export default NewRun;
+export default Runlist;

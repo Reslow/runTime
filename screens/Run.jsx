@@ -4,6 +4,7 @@ import Countdown from "../components/CountDown";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Audio } from "expo-av";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Run = ({ navigation }) => {
   const [sound, setSound] = useState();
@@ -91,9 +92,9 @@ const Run = ({ navigation }) => {
       : undefined;
   }, [sound]);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("Runlist")}
         style={styles.navigationLink}
       >
         <Text style={styles.navigationLinkText}>back</Text>
@@ -147,12 +148,12 @@ const Run = ({ navigation }) => {
           <Text>Last set</Text>
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    margin: 25,
     flex: 1,
   },
 
