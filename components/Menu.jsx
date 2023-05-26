@@ -22,44 +22,49 @@ export default function MenuComponent({ navigation }) {
 
     const signed = await signOut(auth);
     console.log("signed", signed);
-
-    // navigation.navigate("Root");
   }
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          margin: 20,
-          height: 30,
-          alignItems: "flex-start",
-        }}
+      <Menu
+        visible={visible}
+        menuWidth={400}
+        style={styles.menuContainer}
+        anchor={
+          <Text onPress={showMenu}>
+            <MaterialIcons name="menu" size={36} color="black" />
+          </Text>
+        }
+        onRequestClose={hideMenu}
       >
-        <Menu
-          visible={visible}
-          anchor={
-            <Text onPress={showMenu}>
-              <MaterialIcons name="menu" size={36} color="black" />
-            </Text>
-          }
-          onRequestClose={hideMenu}
+        <MenuItem onPress={hideMenu} style={styles.menu}>
+          <Text onPress={hideMenu}>
+            <MaterialIcons name="close" size={36} color="black" />
+          </Text>
+        </MenuItem>
+        <MenuItem
+          onPress={() => {
+            [hideMenu, handleSignout()];
+          }}
+          style={[styles.menu, styles.logout]}
         >
-          <MenuItem onPress={hideMenu}>
-            <Text onPress={hideMenu}>
-              <MaterialIcons name="close" size={36} color="black" />
-            </Text>
-          </MenuItem>
-          <MenuItem
-            onPress={() => {
-              [hideMenu, handleSignout()];
-            }}
-          >
-            logout
-          </MenuItem>
-        </Menu>
-      </View>
+          <Text style={styles.signoutText}>Sign out</Text>
+        </MenuItem>
+      </Menu>
     </View>
   );
 }
 
-const styles = StyleSheet.create({ screen });
+const styles = StyleSheet.create({
+  menu: {
+    backgroundColor: "#D9D9D9", //grey
+  },
+  logout: {
+    backgroundColor: "#373634", //black
+  },
+  signoutText: {
+    color: "#ffffff", //White
+    fontFamily: "rub-xbold",
+    fontSize: 16,
+  },
+});

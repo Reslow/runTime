@@ -34,6 +34,7 @@ const Home = ({ navigation }) => {
       });
 
       await deleteUser(user);
+      navigation.navigate("Home");
     } catch (error) {
       alert(error.message);
     }
@@ -56,8 +57,9 @@ const Home = ({ navigation }) => {
           <Menu navigation={navigation} />
         </View>
         <View style={styles.mainContentContainer}>
-          <View>
-            <Text>Hi {user && user.email} </Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.user}>{user && user.email} </Text>
+            <Text style={styles.greeting}>ready to get some work done?</Text>
           </View>
           <HistoryList
             navigationToRun={navigateToRun}
@@ -90,6 +92,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     margin: 10,
+    backgroundColor: "#ffffff",
   },
   menuContainer: {
     margin: 5,
@@ -109,6 +112,17 @@ const styles = StyleSheet.create({
     fontFamily: "rub-xbold",
     fontSize: 24,
   },
+  greeting: {
+    textAlign: "center",
+    fontFamily: "rub-mid",
+    fontSize: 16,
+  },
+  user: {
+    textAlign: "center",
+    fontFamily: "rub-mid",
+    fontSize: 16,
+  },
+
   primary: {
     color: "#ffffff", //White
     backgroundColor: "#373634", //black

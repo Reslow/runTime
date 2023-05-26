@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const NewRun = ({ navigation }) => {
   const [isActive, setIsActive] = useState(false);
   const [title, setTitle] = useState("");
+  const [runIdState, setRunIdState] = useState(null);
   const { user } = useAuthentication();
   const timeLeftTotal = useSelector((state) => state.time);
 
@@ -29,7 +30,7 @@ const NewRun = ({ navigation }) => {
       const dateTitle = new Date();
       const runId = Math.floor(1000 + Math.random() * 10000);
       const email = user.email;
-      console.log("email", email);
+      setRunIdState(runId);
 
       const data = {
         title: title.length > 0 ? title : dateTitle.toString(),
@@ -60,7 +61,7 @@ const NewRun = ({ navigation }) => {
         id: JSON.stringify(runId),
       });
     }
-    navigation.navigate("RunList");
+    navigation.navigate("RunList", { selectedId: runIdState });
   };
 
   return (

@@ -60,7 +60,7 @@ const Runlist = ({ route, navigation }) => {
         totalTime: data.totalTime,
       });
     }
-    navigation.navigate("Run");
+    navigation.navigate("Run", { selectedId: selectedId });
   };
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const Runlist = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.navContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("New")}
           style={styles.navigationLink}
         >
           <Text style={styles.navigationLinkText}>back</Text>

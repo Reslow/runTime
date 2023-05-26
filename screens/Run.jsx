@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Audio } from "expo-av";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Run = ({ navigation }) => {
+const Run = ({ route, navigation }) => {
   const [sound, setSound] = useState();
   const [showCountdown, setShowCountdown] = useState(false);
   const [activeTimer, setActiveTimer] = useState({});
@@ -17,6 +17,7 @@ const Run = ({ navigation }) => {
   const [paused, setPaused] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
   const [upComing, setUpComing] = useState([]);
+  const { selectedId } = route.params;
 
   useEffect(() => {
     var total = timeLeftTotal.reduce((accum, item) => accum + item.sec, 0);
@@ -50,6 +51,7 @@ const Run = ({ navigation }) => {
   useEffect(() => {
     console.log("up", upComing);
   }, [upComing]);
+
   function reset() {
     setActive(false);
     setPaused(false);
@@ -94,7 +96,7 @@ const Run = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("RunList")}
+        onPress={() => navigation.navigate("RunList", { selectedId })}
         style={styles.navigationLink}
       >
         <Text style={styles.navigationLinkText}>back</Text>

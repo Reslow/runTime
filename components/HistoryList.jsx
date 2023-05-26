@@ -24,14 +24,9 @@ import { useAuthentication } from "../hooks/useAuthentication";
 
 export default function HistoryList({ navigationToRun, navigationToHome }) {
   const [listofData, setlistOfData] = useState([]);
-  const [showSpinner, setShowSpinner] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(true);
   const dispatch = useDispatch();
   const { user, setUser } = useAuthentication();
-  const [selected, setSelected] = useState("");
-
-  useEffect(() => {
-    console.log(showSpinner);
-  }, [showSpinner]);
 
   useEffect(() => {
     async function getDataFromDB(email) {
@@ -67,7 +62,7 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
       <TouchableOpacity>
         <Text onPress={() => handleSelect(item.runs, item.id)}>select</Text>
       </TouchableOpacity>
-      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.itemTitle}>{item.title}</Text>
       <Text>{item.runs?.length}</Text>
       <TouchableOpacity
         style={styles.title}
@@ -80,10 +75,16 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>History</Text>
-        {listofData.length === 0 && <Text>no data yet</Text>}
+      <Text style={styles.heading}>History</Text>
+      <View style={styles.headingsContainer}>
+        <Text style={styles.title}>select</Text>
+        <Text style={styles.title}>title</Text>
+        <Text style={styles.title}>runs</Text>
+        <Text style={styles.title}>Delete</Text>
       </View>
+
+      {listofData.length === 0 && <Text>no data yet</Text>}
+
       {showSpinner === true && (
         <View>
           <ActivityIndicator size="large" color="#00ff00" />
@@ -104,8 +105,30 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
+    width: "90%",
     marginLeft: "auto",
     marginRight: "auto",
+    marginTop: 30,
+  },
+  container: {
+    backgroundColor: "#AFF3C0", //green
+    margin: 20,
+    padding: 5,
+    height: "60%",
+  },
+  heading: {
+    textAlign: "flexStart",
+    fontFamily: "rub-bold",
+    fontSize: 24,
+  },
+  headingsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 5,
+  },
+
+  title: {
+    fontFamily: "rub-bold",
   },
 });
