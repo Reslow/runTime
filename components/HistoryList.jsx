@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addList } from "../redux/slice/timeSlice";
 import { useAuthentication } from "../hooks/useAuthentication";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function HistoryList({ navigationToRun, navigationToHome }) {
   const [listofData, setlistOfData] = useState([]);
@@ -59,8 +60,10 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
 
   const Item = ({ item }) => (
     <View style={styles.item} id={JSON.stringify(item.id)}>
-      <TouchableOpacity>
-        <Text onPress={() => handleSelect(item.runs, item.id)}>select</Text>
+      <TouchableOpacity onPress={() => handleSelect(item.runs, item.id)}>
+        <Text>
+          <MaterialIcons name="arrow-right" size={28} color="black" />
+        </Text>
       </TouchableOpacity>
       <Text style={styles.itemTitle}>{item.title}</Text>
       <Text>{item.runs?.length}</Text>
@@ -68,7 +71,7 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
         style={styles.title}
         onPress={() => handleDeleteItem(item.id)}
       >
-        <Text>Delete</Text>
+        <MaterialIcons name="delete" size={28} color="black" />
       </TouchableOpacity>
     </View>
   );
@@ -117,7 +120,6 @@ const styles = StyleSheet.create({
     height: "60%",
   },
   heading: {
-    textAlign: "flexStart",
     fontFamily: "rub-bold",
     fontSize: 24,
   },

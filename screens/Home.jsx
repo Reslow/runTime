@@ -58,7 +58,6 @@ const Home = ({ navigation }) => {
         </View>
         <View style={styles.mainContentContainer}>
           <View style={styles.textContainer}>
-            <Text style={styles.user}>{user && user.email} </Text>
             <Text style={styles.greeting}>ready to get some work done?</Text>
           </View>
           <HistoryList
@@ -73,12 +72,15 @@ const Home = ({ navigation }) => {
             <Text style={[styles.buttonText, styles.primary]}>New</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.BottomContainer}>
+        <View style={styles.bottomContainer}>
+          <Text>Account</Text>
+          <Text style={styles.user}>{user && user.email} </Text>
+
           <TouchableOpacity
-            style={[styles.button, styles.primary]}
+            style={[styles.button, styles.secondary]}
             onPress={() => handleDelete()}
           >
-            <Text style={[styles.buttonText, styles.primary]}>
+            <Text style={[styles.buttonText, styles.secondary]}>
               Delete Account
             </Text>
           </TouchableOpacity>
@@ -100,22 +102,27 @@ const styles = StyleSheet.create({
   mainContentContainer: {
     background: "pink",
   },
+  bottomContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   button: {
     paddingVertical: 15,
     paddingHorizontal: 25,
     borderRadius: 4,
-    width: "100%",
     minWidth: "80%",
+    maxWidth: "90%",
+    alignSelf: "center",
   },
   buttonText: {
-    textAlign: "center",
-    fontFamily: "rub-xbold",
     fontSize: 24,
+    textAlign: "center",
   },
   greeting: {
-    textAlign: "center",
     fontFamily: "rub-mid",
     fontSize: 16,
+    textAlign: "center",
   },
   user: {
     textAlign: "center",
@@ -126,5 +133,12 @@ const styles = StyleSheet.create({
   primary: {
     color: "#ffffff", //White
     backgroundColor: "#373634", //black
+    fontFamily: "rub-xbold",
+  },
+  secondary: {
+    color: "#373634", //grey
+    backgroundColor: "#f6f6f6", //black
+    fontFamily: "rub-bold",
+    marginTop: 10,
   },
 });

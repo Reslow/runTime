@@ -4,8 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Switch,
-  TextInput,
   KeyboardAvoidingView,
 } from "react-native";
 import React, { useState } from "react";
@@ -78,30 +76,6 @@ const NewRun = ({ navigation }) => {
         <Text style={styles.title}>Create run</Text>
         <Control />
         <List />
-        <View style={styles.save}>
-          <View style={styles.saveControl}>
-            <Text>save to profile?</Text>
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isActive ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isActive}
-            />
-          </View>
-
-          {isActive && (
-            <View style={styles.inputCon}>
-              <TextInput
-                placeholder="Title"
-                value={title}
-                onChangeText={(text) => setTitle(text)}
-                style={styles.input}
-                required
-              />
-            </View>
-          )}
-        </View>
       </View>
       <TouchableOpacity
         style={[styles.button, styles.primary]}
@@ -150,7 +124,6 @@ const styles = StyleSheet.create({
     minWidth: "80%",
   },
   buttonText: {
-    textAlign: "center",
     fontFamily: "rub-xbold",
     fontSize: 24,
   },
@@ -158,7 +131,7 @@ const styles = StyleSheet.create({
     color: "#ffffff", //White
     backgroundColor: "#373634", //black
   },
-  title: { textAlign: "center", fontSize: 36, fontFamily: "rub-xbold" },
+  title: { fontSize: 36, fontFamily: "rub-xbold" },
 });
 
 export default NewRun;

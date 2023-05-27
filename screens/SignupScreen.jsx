@@ -169,7 +169,6 @@ const styles = StyleSheet.create({
     minWidth: "80%",
   },
   buttonText: {
-    textAlign: "center",
     fontFamily: "rub-xbold",
     fontSize: 24,
   },
