@@ -77,31 +77,34 @@ const Runlist = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
-        <Text style={styles.title}>Run</Text>
-        <List selected={selectedId} />
-        <View style={styles.save}>
-          <View style={styles.saveControl}>
-            <Text>save to profile?</Text>
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isActive ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isActive}
-            />
-          </View>
-
-          {isActive && (
-            <View style={styles.inputCon}>
-              <TextInput
-                placeholder="Title"
-                value={title}
-                onChangeText={(text) => setTitle(text)}
-                style={styles.input}
-                required
+        <Text style={styles.title}>preview</Text>
+        <View style={styles.mainContainer}>
+          <List selected={selectedId} />
+          <View style={styles.save}>
+            <View style={styles.saveControl}>
+              <Text>save to profile?</Text>
+              <Switch
+                trackColor={{ false: "#ffffff", true: "#3e3e3e" }}
+                thumbColor={isActive ? "#ffffff" : "#3e3e3e"}
+                ios_backgroundColor="#ffffff"
+                onValueChange={toggleSwitch}
+                value={isActive}
               />
             </View>
-          )}
+
+            {isActive && (
+              <View style={styles.inputCon}>
+                <TextInput
+                  placeholder="Title"
+                  value={title}
+                  onChangeText={(text) => setTitle(text)}
+                  style={styles.input}
+                  required
+                  height={50}
+                />
+              </View>
+            )}
+          </View>
         </View>
       </View>
       <TouchableOpacity
@@ -115,27 +118,33 @@ const Runlist = ({ route, navigation }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
     flex: 1,
+    backgroundColor: "#ffffff",
+    padding: 10,
   },
   navContainer: {},
-  navigationLink: {
-    top: 50,
-    left: 0,
-  },
+
+  navigationLink: {},
   navigationLinkText: {
     fontFamily: "rub-mid",
     fontSize: 18,
     color: "#373634", //black
   },
   inputCon: {
-    backgroundColor: "blue",
+    backgroundColor: "#f6f6f6",
     width: "100%",
+    height: 50,
+    marginTop: 15,
+  },
+  input: {
+    height: 50,
+    paddingLeft: 15,
   },
   save: {
-    backgroundColor: "#00000045",
+    backgroundColor: "#AFF3C0",
     width: "100%",
     padding: 10,
+    marginTop: 15,
   },
   saveControl: {
     display: "flex",
@@ -153,12 +162,16 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "rub-xbold",
     fontSize: 24,
+    textAlign: "center",
+  },
+  mainContainer: {
+    padding: 10,
   },
   primary: {
     color: "#ffffff", //White
     backgroundColor: "#373634", //black
   },
-  title: { textAlign: "center", fontSize: 36, fontFamily: "rub-xbold" },
+  title: { textAlign: "center", fontSize: 24, fontFamily: "rub-xbold" },
 });
 
 export default Runlist;

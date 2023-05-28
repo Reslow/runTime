@@ -58,15 +58,17 @@ export default function Control() {
 
   return (
     <View style={styles.container}>
+      <Text>select time (min : sec)</Text>
       <View style={styles.controlNumber}>
         <SelectNumber setNumbers={setNumbers} numbers={numbers} id="a" />
         <Text style={{ fontSize: 36 }}>:</Text>
         <SelectNumber setNumbers={setNumbers} numbers={numbers} id="b" />
       </View>
       <View style={styles.controlAct}>
+        <Text>select activity</Text>
         <SelectActivity setActivity={setActivity} activity={activity} />
         <TouchableOpacity style={styles.addBtn} onPress={handleAdd}>
-          <Text style={styles.addBtnText}>{"+"}</Text>
+          <Text style={styles.addBtnText}>add</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -76,8 +78,8 @@ const styles = StyleSheet.create({
   addBtn: {
     backgroundColor: "#000000",
     alignItems: "center",
-    width: screen.width / 6,
-    height: screen.width / 6,
+    width: screen.width / 4,
+    height: 50,
     alignSelf: "center",
     justifyContent: "center",
     borderRadius: 5,
@@ -85,16 +87,16 @@ const styles = StyleSheet.create({
   addBtnText: {
     color: "#ffffff",
     fontWeight: "bold",
-    fontSize: 45,
+    fontSize: 24,
   },
   controlAct: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#AFF3C0", //green,
     color: "#000000",
     alignSelf: "center",
     width: "100%",
   },
   controlNumber: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#AFF3C0", //green
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -104,5 +106,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 
-  container: { marginHorizontal: "auto" },
+  container: { marginHorizontal: "auto", padding: 5 },
 });

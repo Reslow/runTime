@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
+  SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
 import Control from "../components/Control";
@@ -20,8 +21,6 @@ const NewRun = ({ navigation }) => {
   const [runIdState, setRunIdState] = useState(null);
   const { user } = useAuthentication();
   const timeLeftTotal = useSelector((state) => state.time);
-
-  const toggleSwitch = () => setIsActive((previousState) => !previousState);
 
   const handlePressRun = async () => {
     if (isActive) {
@@ -63,37 +62,41 @@ const NewRun = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.navContainer}>
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.topContainer}>
+          <View style={styles.navContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Home")}
+              style={styles.navigationLink}
+            >
+              <Text style={styles.navigationLinkText}>back</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.title}>Create run</Text>
+          <View style={styles.mainContainer}>
+            <Control />
+            <List />
+          </View>
+        </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Home")}
-          style={styles.navigationLink}
+          style={[styles.button, styles.primary]}
+          onPress={handlePressRun}
         >
-          <Text style={styles.navigationLinkText}>back</Text>
+          <Text style={[styles.buttonText, styles.primary]}>next</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Create run</Text>
-        <Control />
-        <List />
-      </View>
-      <TouchableOpacity
-        style={[styles.button, styles.primary]}
-        onPress={handlePressRun}
-      >
-        <Text style={[styles.buttonText, styles.primary]}>Run</Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
     flex: 1,
+    padding: 10,
+    backgroundColor: "#ffffff",
   },
-  navContainer: {},
   navigationLink: {
-    top: 50,
+    top: 0,
     left: 0,
   },
   navigationLinkText: {
@@ -126,12 +129,25 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "rub-xbold",
     fontSize: 24,
+    textAlign: "center",
   },
   primary: {
     color: "#ffffff", //White
     backgroundColor: "#373634", //black
   },
-  title: { fontSize: 36, fontFamily: "rub-xbold" },
+  title: {
+    fontSize: 24,
+    fontFamily: "rub-xbold",
+
+    textAlign: "center",
+  },
+  topContainer: {
+    backgroundColor: "#ffffff",
+    padding: 10,
+  },
+  mainContainer: {
+    backgroundColor: "#AFF3C0", //green
+  },
 });
 
 export default NewRun;

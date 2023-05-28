@@ -37,7 +37,6 @@ export default function List({ selected }) {
 
   const Item = ({ item }) => (
     <View style={styles.item} id={JSON.stringify(item.id)}>
-      {console.log("item", item)}
       <Text style={styles.title}>{item.sec} </Text>
       <Text style={styles.title}>{item.act}</Text>
       <TouchableOpacity
@@ -50,9 +49,7 @@ export default function List({ selected }) {
   );
   return (
     <View style={styles.container}>
-      <View>
-        <Text>LISTA</Text>
-      </View>
+      <Text style={styles.title}>Lista ( sec, activity, delete) </Text>
       <FlatList
         data={timeLeftTotal && timeLeftTotal}
         renderItem={({ item }) => <Item item={item} />}
@@ -70,5 +67,9 @@ const styles = StyleSheet.create({
     width: "80%",
     marginLeft: "auto",
     marginRight: "auto",
+    marginBottom: 15,
+  },
+  title: {
+    padding: 5,
   },
 });

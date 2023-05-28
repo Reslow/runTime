@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { addList } from "../redux/slice/timeSlice";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { MaterialIcons } from "@expo/vector-icons";
+import { getAuth } from "firebase/auth";
 
 export default function HistoryList({ navigationToRun, navigationToHome }) {
   const [listofData, setlistOfData] = useState([]);
@@ -41,12 +42,16 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
     }
 
     if (user !== null) {
+      const a = getAuth();
+      console.log("check", user, "checka", a);
       if (typeof user === "") {
-        getDataFromDB(JSON.parse(user).email);
+        const res = getDataFromDB(JSON.parse(user).email);
+        console.log(res, "response");
       } else {
-        getDataFromDB(user.email);
+        let res = getDataFromDB(user.email);
+        console.log(res, "response");
       }
-    }
+    } else console.log("userIsNull");
   }, [user]);
 
   async function handleDeleteItem(id) {

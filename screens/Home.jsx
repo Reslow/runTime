@@ -14,9 +14,20 @@ import { db } from "../firebase";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { deleteUser } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { Auth, getAuth } from "firebase/auth";
 
 const Home = ({ navigation }) => {
   const { user } = useAuthentication();
+  useEffect(() => {
+    console.log("a");
+    console.log(user);
+    console.log("a");
+    console.log("b");
+    const a = getAuth();
+    const u = a.currentUser;
+    console.log(u);
+    console.log("b");
+  });
 
   const handleDelete = async () => {
     try {
@@ -51,7 +62,7 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <View style={styles.menuContainer}>
           <Menu navigation={navigation} />
@@ -93,15 +104,13 @@ const Home = ({ navigation }) => {
 export default Home;
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    padding: 10,
     backgroundColor: "#ffffff",
   },
   menuContainer: {
     margin: 5,
   },
-  mainContentContainer: {
-    background: "pink",
-  },
+
   bottomContainer: {
     display: "flex",
     justifyContent: "center",

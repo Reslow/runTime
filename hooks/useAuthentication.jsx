@@ -7,26 +7,26 @@ export function useAuthentication() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    auth.onAuthStateChanged(function (user) {
+    auth.onAuthStateChanged((user) => {
       if (user) {
+        console.log("checking user in auth");
+        console.log(auth.uid);
         console.log("checking user in auth");
         // User is signed in.
         setUser(user);
         // ...
       } else {
         console.log("NO");
+        console.log("checking user in auth");
+        console.log(user.uid);
+        console.log("checking user in auth");
         // User is signed out.
+        AsyncStorage.getItem("user").then((i) => setUser(JSON.parse(i)));
         AsyncStorage.getItem("user").then((i) => setUser(JSON.parse(i)));
       }
       // ...
     });
   }, []);
-
-  useEffect(() => {
-    console.log("USER");
-    console.log(user);
-    console.log("USER");
-  }, [user]);
 
   return {
     user,

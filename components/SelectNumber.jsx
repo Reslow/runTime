@@ -35,10 +35,10 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
         style={{
           height: 150,
           width: screen.width / 4,
-          margin: 20,
+          marginHorizontal: 20,
           color: "#000000",
           display: "flex",
-          backgroundColor: "#00000045",
+          backgroundColor: "#00000020",
         }}
         selectedValue={selectedNumber}
         onValueChange={(itemValue, index) => setSelectedNumber(itemValue)}
@@ -52,8 +52,7 @@ export default function SelectNumber({ setNumbers, numbers, id }) {
                 value={JSON.stringify(num)}
                 style={{
                   width: "30%",
-                  height: 30,
-                  color: "white",
+                  height: 20,
                   fontSize: 18,
                 }}
               />

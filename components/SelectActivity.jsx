@@ -15,29 +15,14 @@ export default function selectedActivity({ setActivity }) {
         style={{
           height: 200,
           width: "100%",
-          color: "#000000",
-          backgroundColor: "#00000045",
+          marginBottom: 15,
+          backgroundColor: "#00000020",
         }}
         selectedValue={selectedActivity}
         onValueChange={(itemValue, itemIndex) => setSelectedActivity(itemValue)}
       >
-        <Picker.Item
-          label="Walk"
-          value="Walk"
-          style={{
-            color: "black",
-            fontSize: 18,
-            fontStyle: "bold",
-            backgroundColor: "#00000045",
-          }}
-        />
-        <Picker.Item
-          label="Run"
-          value="Run"
-          style={{
-            backgroundColor: "#00000045",
-          }}
-        />
+        <Picker.Item label="Walk" value="Walk" backgroundColor="yellow" />
+        <Picker.Item label="Run" value="Run" />
       </Picker>
     </View>
   );
