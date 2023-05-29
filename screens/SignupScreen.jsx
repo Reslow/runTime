@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "rub-xbold",
     fontSize: 24,
+    textAlign: "center",
   },
   primary: {
     color: "#ffffff", //White

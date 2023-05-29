@@ -56,8 +56,9 @@ export default function Countdown({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#00000045",
+    backgroundColor: "#000000",
     flex: 1,
+    height: "100%",
   },
   countText: {
     fontSize: 155,

@@ -18,16 +18,6 @@ import { Auth, getAuth } from "firebase/auth";
 
 const Home = ({ navigation }) => {
   const { user } = useAuthentication();
-  useEffect(() => {
-    console.log("a");
-    console.log(user);
-    console.log("a");
-    console.log("b");
-    const a = getAuth();
-    const u = a.currentUser;
-    console.log(u);
-    console.log("b");
-  });
 
   const handleDelete = async () => {
     try {
@@ -38,10 +28,8 @@ const Home = ({ navigation }) => {
       const q = query(runsRef, where("user", "==", user.email));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log(doc);
         const docref = doc.ref;
         deleteDoc(docref);
-        console.log(doc);
       });
 
       await deleteUser(user);

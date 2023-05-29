@@ -45,13 +45,15 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
       const a = getAuth();
       console.log("check", user, "checka", a);
       if (typeof user === "") {
+        console.log("AAAAA");
         const res = getDataFromDB(JSON.parse(user).email);
         console.log(res, "response");
       } else {
+        console.log("BBBB");
         let res = getDataFromDB(user.email);
         console.log(res, "response");
       }
-    } else console.log("userIsNull");
+    }
   }, [user]);
 
   async function handleDeleteItem(id) {
@@ -90,9 +92,7 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
         <Text style={styles.title}>runs</Text>
         <Text style={styles.title}>Delete</Text>
       </View>
-
       {listofData.length === 0 && <Text>no data yet</Text>}
-
       {showSpinner === true && (
         <View>
           <ActivityIndicator size="large" color="#00ff00" />
@@ -102,7 +102,7 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
       <FlatList
         data={listofData}
         renderItem={({ item }) => <Item item={item} />}
-        keyExtractor={(item) => item.title}
+        keyExtractor={(item, i) => item.id + i}
       />
     </View>
   );
