@@ -18,12 +18,12 @@ import { Auth, getAuth } from "firebase/auth";
 
 const Home = ({ navigation }) => {
   const { user } = useAuthentication();
+  console.log("user", user);
 
   const handleDelete = async () => {
     try {
       await AsyncStorage.setItem("user", "");
       await AsyncStorage.setItem("data", "");
-      await deleteDoc(doc(db, "users", user.uid));
       const runsRef = collection(db, "runs");
       const q = query(runsRef, where("user", "==", user.email));
       const querySnapshot = await getDocs(q);
@@ -33,6 +33,7 @@ const Home = ({ navigation }) => {
       });
 
       await deleteUser(user);
+      await deleteDoc(doc(db, "users", user.uid));
       navigation.navigate("Home");
     } catch (error) {
       alert(error.message);
@@ -49,11 +50,15 @@ const Home = ({ navigation }) => {
     navigation.navigate("Home");
   }
 
+  function navigateToHello() {
+    navigation.navigate("Hello");
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <View style={styles.menuContainer}>
-          <Menu navigation={navigation} />
+          <Menu navigateToHello={navigateToHello} />
         </View>
         <View style={styles.mainContentContainer}>
           <View style={styles.textContainer}>

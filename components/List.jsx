@@ -9,13 +9,7 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { removeNumbers } from "../redux/slice/timeSlice";
-import {
-  doc,
-  updateDoc,
-  deleteField,
-  arrayRemove,
-  getDoc,
-} from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function List({ selected }) {
@@ -25,23 +19,29 @@ export default function List({ selected }) {
 
   async function handleDeleteItem(id) {
     dispatch(removeNumbers(id));
-    const runRef = doc(db, "runs", selected);
-    const docSnap = await getDoc(runRef);
-    const list = docSnap.data();
-    const runs = list.runs;
-    const filtered = runs.filter((run) => run.id !== id);
-    await updateDoc(runRef, {
-      runs: filtered,
-    });
+    try {
+      const runRef = await doc(db, "runs", selected);
+      const docSnap = await getDoc(runRef);
+
+      const list = docSnap.data();
+      const runs = list.runs;
+      const filtered = runs.filter((run) => run.id !== id);
+      await updateDoc(runRef, {
+        runs: filtered,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const Item = ({ item }) => (
     <View style={styles.item} id={JSON.stringify(item.id)}>
       <Text style={styles.title}>{item.sec} </Text>
       <Text style={styles.title}>{item.act}</Text>
+
       <TouchableOpacity
         style={styles.title}
-        onPress={() => handleDeleteItem(item.id)}
+        onPress={() => [handleDeleteItem(item.id)]}
       >
         <Text>Delete</Text>
       </TouchableOpacity>

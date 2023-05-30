@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthentication } from "../hooks/useAuthentication";
 import UserStack from "./userStack";
 import AuthStack from "./authStack";
 
 export default function RootNavigation() {
   let { user } = useAuthentication();
+  const [checkedUser, setCheckedUser] = useState(null);
+  useEffect(() => {
+    setCheckedUser(user);
+  }, [user]);
 
-  return user === undefined || user === null ? (
+  return checkedUser === undefined || checkedUser === null ? (
     <AuthStack />
   ) : (
-    <UserStack user={user} />
+    <UserStack />
   );
 }

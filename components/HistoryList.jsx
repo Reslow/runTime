@@ -22,7 +22,6 @@ import { useDispatch } from "react-redux";
 import { addList } from "../redux/slice/timeSlice";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { MaterialIcons } from "@expo/vector-icons";
-import { getAuth } from "firebase/auth";
 
 export default function HistoryList({ navigationToRun, navigationToHome }) {
   const [listofData, setlistOfData] = useState([]);
@@ -42,7 +41,6 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
     }
 
     if (user !== null) {
-      const a = getAuth();
       if (typeof user === "") {
         getDataFromDB(JSON.parse(user).email);
       } else {

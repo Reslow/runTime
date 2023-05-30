@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Control from "../components/Control";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { useSelector } from "react-redux";
@@ -16,48 +16,49 @@ import { db } from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NewRun = ({ navigation }) => {
-  const [isActive, setIsActive] = useState(false);
   const [title, setTitle] = useState("");
   const [runIdState, setRunIdState] = useState(null);
   const { user } = useAuthentication();
   const timeLeftTotal = useSelector((state) => state.time);
+  useEffect(() => {
+    const runId = Math.floor(1000 + Math.random() * 10000);
+    setRunIdState(runId);
+  }, []);
 
   const handlePressRun = async () => {
-    if (isActive) {
-      const dateTitle = new Date();
-      const runId = Math.floor(1000 + Math.random() * 10000);
-      const email = user.email;
-      setRunIdState(runId);
+    const dateTitle = new Date();
+    const email = user.email;
 
-      const data = {
-        title: title.length > 0 ? title : dateTitle.toString(),
-        user: email,
-        runs: timeLeftTotal,
-        totalTime: timeLeftTotal.reduce((accum, item) => accum + item.sec, 0),
-      };
-      const savedUser = await AsyncStorage.getItem("user");
-      if (savedUser.email === user.email) {
-        AsyncStorage.setItem(
-          "data",
-          JSON.stringify({
-            runId: {
-              title: data.title,
-              user: data.user,
-              runs: data.runs,
-              totalTime: data.totalTime,
-              id: JSON.stringify(runId),
-            },
-          })
-        );
-      }
-      await setDoc(doc(db, "runs", JSON.stringify(runId)), {
-        title: data.title,
-        user: data.user,
-        runs: data.runs,
-        totalTime: data.totalTime,
-        id: JSON.stringify(runId),
-      });
+    const data = {
+      title: title.length > 0 ? title : dateTitle.toString(),
+      user: email,
+      runs: timeLeftTotal,
+      totalTime: timeLeftTotal.reduce((accum, item) => accum + item.sec, 0),
+      id: runIdState,
+    };
+    const savedUser = await AsyncStorage.getItem("user");
+    if (savedUser.email === user.email) {
+      AsyncStorage.setItem(
+        "data",
+        JSON.stringify({
+          runId: {
+            title: data.title,
+            user: data.user,
+            runs: data.runs,
+            totalTime: data.totalTime,
+            id: JSON.stringify(runIdState),
+          },
+        })
+      );
     }
+    await setDoc(doc(db, "runs", JSON.stringify(runIdState)), {
+      title: data.title,
+      user: data.user,
+      runs: data.runs,
+      totalTime: data.totalTime,
+      id: JSON.stringify(runIdState),
+    });
+
     navigation.navigate("RunList", { selectedId: runIdState });
   };
 
