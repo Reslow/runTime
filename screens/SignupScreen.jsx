@@ -21,7 +21,6 @@ const SignupScreen = ({ navigation }) => {
 
   const HandleSignup = async () => {
     try {
-      console.log("auth sign up", auth, email, pwd);
       const user = await createUserWithEmailAndPassword(auth, email, pwd);
 
       // Add a new document in collection "users"
@@ -32,7 +31,6 @@ const SignupScreen = ({ navigation }) => {
       navigation.navigate("Login");
     } catch (error) {
       setError(error.message);
-      console.log(error);
       alert(error.message);
     }
   };

@@ -15,13 +15,10 @@ export default function MenuComponent({ navigation }) {
   const showMenu = () => setVisible(true);
 
   async function handleSignout() {
-    console.log("bye");
     await AsyncStorage.setItem("user", "");
     await AsyncStorage.setItem("data", "");
-    console.log("s", auth);
 
-    const signed = await signOut(auth);
-    console.log("signed", signed);
+    await signOut(auth);
   }
 
   return (

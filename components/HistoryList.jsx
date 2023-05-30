@@ -43,15 +43,10 @@ export default function HistoryList({ navigationToRun, navigationToHome }) {
 
     if (user !== null) {
       const a = getAuth();
-      console.log("check", user, "checka", a);
       if (typeof user === "") {
-        console.log("AAAAA");
-        const res = getDataFromDB(JSON.parse(user).email);
-        console.log(res, "response");
+        getDataFromDB(JSON.parse(user).email);
       } else {
-        console.log("BBBB");
-        let res = getDataFromDB(user.email);
-        console.log(res, "response");
+        getDataFromDB(user.email);
       }
     }
   }, [user]);

@@ -62,6 +62,7 @@ const Run = ({ route, navigation }) => {
   }
 
   function startAllTimers(data, val = 0) {
+    setPaused(false);
     const time = data;
     setTimeout(() => {
       setUpComing(time[val + 1]);
@@ -95,7 +96,7 @@ const Run = ({ route, navigation }) => {
       : undefined;
   }, [sound]);
   return (
-    <SafeAreaView style>
+    <SafeAreaView>
       {showCountdown ? (
         <View style={styles.CountDownContainer}>
           <Countdown
@@ -118,31 +119,33 @@ const Run = ({ route, navigation }) => {
           </View>
           <View style={styles.bottomContainer}>
             <View style={styles.timerControl}>
-              {!active ? (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => [setActive(true), setShowCountdown(true)]}
-                >
-                  <Text>
-                    <MaterialIcons
-                      name="play-circle-outline"
-                      size={70}
-                      color="black"
-                    />{" "}
-                  </Text>
-                </TouchableOpacity>
+              {!paused ? (
+                <View>
+                  {!active ? (
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => [setActive(true), setShowCountdown(true)]}
+                    >
+                      <Text>
+                        <MaterialIcons
+                          name="play-circle-outline"
+                          size={70}
+                          color="black"
+                        />{" "}
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => PauseTimer()}
+                    >
+                      <Text>
+                        <MaterialIcons name="pause" size={70} color="black" />{" "}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               ) : (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => PauseTimer()}
-                >
-                  <Text>
-                    <MaterialIcons name="pause" size={70} color="black" />{" "}
-                  </Text>
-                </TouchableOpacity>
-              )}
-
-              {active && paused && (
                 <View style={styles.panel}>
                   <TouchableOpacity
                     style={styles.button}

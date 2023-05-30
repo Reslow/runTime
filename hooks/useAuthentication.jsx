@@ -9,13 +9,10 @@ export function useAuthentication() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log("checking user in auth");
-        console.log("checking user in auth");
         // User is signed in.
         setUser(user);
         // ...
       } else {
-        console.log("NO");
         // User is signed out.
         AsyncStorage.getItem("user").then((i) => setUser(JSON.parse(i)));
       }

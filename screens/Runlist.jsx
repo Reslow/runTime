@@ -63,9 +63,6 @@ const Runlist = ({ route, navigation }) => {
     navigation.navigate("Run", { selectedId: selectedId });
   };
 
-  useEffect(() => {
-    console.log(timeLeftTotal);
-  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.navContainer}>

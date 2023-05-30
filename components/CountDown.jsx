@@ -62,20 +62,22 @@ const styles = StyleSheet.create({
   },
   countText: {
     fontSize: 155,
-    color: "#ffc0cb",
+    color: "#373634",
     textAlign: "center",
     alignSelf: "center",
-    alignContent: "center",
-    letterSpacing: -20,
+    margin: 10,
+    position: "absolute",
+    top: 0,
+    left: 10,
   },
   textContainer: {
-    borderColor: "black",
+    borderColor: "#AFF3C0", //green
     borderWidth: 20,
-    borderRadius: 1000,
+    borderRadius: 700,
     alignItems: "center",
     width: 250,
     height: 250,
-    marginHorizontal: "auto",
+    position: "relative",
     alignSelf: "center",
   },
 });
