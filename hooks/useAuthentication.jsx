@@ -10,9 +10,14 @@ export function useAuthentication() {
     if (user) {
       // User is signed in.
       setUser(user);
-      // ...
     } else {
-      setUser(null);
+      try {
+        AsyncStorage.getItem("user").then((saved) =>
+          setUser(JSON.parse(saved))
+        );
+      } catch (error) {
+        setUser(null);
+      }
     }
   });
 

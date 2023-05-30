@@ -4,11 +4,12 @@ import UserStack from "./userStack";
 import AuthStack from "./authStack";
 
 export default function RootNavigation() {
-  let { user } = useAuthentication();
+  let { user, setUser } = useAuthentication();
   const [checkedUser, setCheckedUser] = useState(null);
   useEffect(() => {
+    console.log("checked", checkedUser);
     setCheckedUser(user);
-  }, [user]);
+  }, [setUser]);
 
   return checkedUser === undefined || checkedUser === null ? (
     <AuthStack />

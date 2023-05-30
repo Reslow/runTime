@@ -49,9 +49,6 @@ const Run = ({ route, navigation }) => {
     setTimeCon([activeTimer]);
     clearInterval(id);
   }
-  useEffect(() => {
-    console.log("up", upComing);
-  }, [upComing]);
 
   function reset() {
     setActive(false);

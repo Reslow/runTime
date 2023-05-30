@@ -18,7 +18,6 @@ import { Auth, getAuth } from "firebase/auth";
 
 const Home = ({ navigation }) => {
   const { user } = useAuthentication();
-  console.log("user", user);
 
   const handleDelete = async () => {
     try {
