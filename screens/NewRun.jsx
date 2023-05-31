@@ -51,13 +51,13 @@ const NewRun = ({ navigation }) => {
         })
       );
     }
-    await setDoc(doc(db, "runs", JSON.stringify(runIdState)), {
-      title: data.title,
-      user: data.user,
-      runs: data.runs,
-      totalTime: data.totalTime,
-      id: JSON.stringify(runIdState),
-    });
+    // await setDoc(doc(db, "runs", JSON.stringify(runIdState)), {
+    //   title: data.title,
+    //   user: data.user,
+    //   runs: data.runs,
+    //   totalTime: data.totalTime,
+    //   id: JSON.stringify(runIdState),
+    // });
 
     navigation.navigate("RunList", { selectedId: runIdState });
   };

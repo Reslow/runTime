@@ -32,7 +32,7 @@ const Run = ({ route, navigation }) => {
       setTimeCon({ act: data.act, id: data.id, sec: timer });
       timer--;
 
-      if (timer <= 3) {
+      if (timer < 3) {
         playSound();
       }
       if (timer < 0) {
