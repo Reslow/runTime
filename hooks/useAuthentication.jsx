@@ -8,21 +8,26 @@ export function useAuthentication() {
 
   auth.onAuthStateChanged((user) => {
     if (user) {
-      // User is signed in.
       setUser(user);
     } else {
-      try {
-        AsyncStorage.getItem("user").then((saved) =>
-          setUser(JSON.parse(saved))
-        );
-      } catch (error) {
-        setUser(null);
-      }
+      // try {
+      // const saved = AsyncStorage.getItem("user").then((item) =>
+      // JSON.parse(item)
+      // );
+      // if (saved !== null) {
+      //   setUser(saved);
+      // } else {
+      setUser(null);
+      // }
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
+    return user;
   });
 
   return {
-    user,
     setUser,
+    user,
   };
 }

@@ -7,9 +7,8 @@ export default function RootNavigation() {
   let { user, setUser } = useAuthentication();
   const [checkedUser, setCheckedUser] = useState(null);
   useEffect(() => {
-    console.log("checked", checkedUser);
     setCheckedUser(user);
-  }, [setUser]);
+  }, [user]);
 
   return checkedUser === undefined || checkedUser === null ? (
     <AuthStack />
